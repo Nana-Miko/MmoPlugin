@@ -1,0 +1,16 @@
+CustomArms:
+  fistArms:
+    BaseArticle: "DIAMOND_SWORD"
+    Name : "无敌剑"
+    UnBreakable : true
+    Lore :
+      - "第一行"
+      - "第二行"
+    Enchant :
+      - "DAMAGE_ALL,9999"
+    Attribute :
+      - AttributeName : "generic.attackDamage"
+        Name : "Damage"
+        Amount : 20
+        Operation : "ADD_NUMBER"
+        Slot : "HAND"

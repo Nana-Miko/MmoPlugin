@@ -1,0 +1,13 @@
+name: Mmoplugin
+version: '${project.version}'
+main: com.nana.mmoplugin.mmoplugin.Mmoplugin
+api-version: 1.18
+authors: [ NanaMiko ]
+
+commands:
+  get:
+    description: "获取自定义的物品"
+    usage: "未找到该自定义物品"
+  skill:
+    description: "测试"
+    usage: "测试"
