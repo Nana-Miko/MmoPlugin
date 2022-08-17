@@ -1,4 +1,4 @@
-package com.nana.mmoplugin.mmoplugin.util;
+package com.nana.mmoplugin.mmoplugin.util.Lock;
 
 // 为线程安全，实现类变量的线程锁
 

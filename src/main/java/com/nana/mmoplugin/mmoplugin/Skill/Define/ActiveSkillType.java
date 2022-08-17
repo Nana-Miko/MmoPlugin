@@ -8,10 +8,10 @@ import com.nana.mmoplugin.mmoplugin.Skill.Active.ShadowStrike;
 import com.nana.mmoplugin.mmoplugin.Skill.Active.ShootSkill;
 
 public enum ActiveSkillType {
-    SHOOT_SWORD_CONTROL("御物之法", (long)5,(long)0,(long)0, "Error", ShootSkill.class, 0,ActiveSkillSingleType.ONCE),
-    SHADOW_STRIKE("御天下大块之形", (long)5,(long)0,(long)0, "周围没有可攻击的对象", ShadowStrike.class, 1,ActiveSkillSingleType.ONCE),
-    CHOP_SWORD("巨剑劈砍",(long)5,(long)0,(long)0,"Error", ChopSword.class,2,ActiveSkillSingleType.ONCE),
-    MU_MYO_U_SAN_DAN_ZI_KI("无明三段突",(long)5,(long)3,(long)0.5,"Error", MuMyouSanDanZiKi.class,3,ActiveSkillSingleType.MORE),
+    SHOOT_SWORD_CONTROL("御物之法", 5.0, 0.0, 0.0, "Error", ShootSkill.class, 0, ActiveSkillSingleType.ONCE),
+    SHADOW_STRIKE("御天下大块之形", 5.0, 0.0, 0.0, "周围没有可攻击的对象", ShadowStrike.class, 1, ActiveSkillSingleType.ONCE),
+    CHOP_SWORD("巨剑劈砍", 5.0, 0.0, 0.0, "Error", ChopSword.class, 2, ActiveSkillSingleType.ONCE),
+    MU_MYO_U_SAN_DAN_ZI_KI("无明三段突", 5.0, 3.0, 0.5, "Error", MuMyouSanDanZiKi.class, 3, ActiveSkillSingleType.MORE),
     ;
 
     private final String name;
@@ -25,15 +25,19 @@ public enum ActiveSkillType {
     // 在两段之间使用的间隔
     private final Long intervalCd;
 
-    ActiveSkillType(String name, Long cd,Long moreCD,Long intervalCd, String ErrorTips, Class<? extends ActiveSkill> clazz, int id,ActiveSkillSingleType SingleType) {
+    ActiveSkillType(String name, Double cd, Double moreCD, Double intervalCd, String ErrorTips, Class<? extends ActiveSkill> clazz, int id, ActiveSkillSingleType SingleType) {
+        // 此处把三个cd由秒的单位转化成毫秒
+        cd = cd * 1000;
+        moreCD = moreCD * 1000;
+        intervalCd = intervalCd * 1000;
         this.ErrorTips = ErrorTips;
         this.name = name;
-        this.cd =cd;
-        this.moreCd =moreCD;
+        this.cd = cd.longValue();
+        this.moreCd = moreCD.longValue();
         this.id = id;
         this.clazz = clazz;
         this.SingleType = SingleType;
-        this.intervalCd =intervalCd;
+        this.intervalCd = intervalCd.longValue();
     }
 
     public Long getIntervalCd() {

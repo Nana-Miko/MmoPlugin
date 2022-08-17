@@ -1,4 +1,4 @@
-package com.nana.mmoplugin.mmoplugin.util;
+package com.nana.mmoplugin.mmoplugin.util.Lock;
 
 public interface CanLock {
     // 存放上锁者

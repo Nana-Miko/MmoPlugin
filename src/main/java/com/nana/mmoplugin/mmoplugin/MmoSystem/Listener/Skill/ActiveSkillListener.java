@@ -1,13 +1,13 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Skill;
 
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack.AttackListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Dodge.SneakListener;
-import com.nana.mmoplugin.mmoplugin.util.CanLock;
-import com.nana.mmoplugin.mmoplugin.util.ClassLock;
-import com.nana.mmoplugin.mmoplugin.util.itemUtil;
+import com.nana.mmoplugin.mmoplugin.Mmoplugin;
 import com.nana.mmoplugin.mmoplugin.Skill.Define.ActiveSkill;
 import com.nana.mmoplugin.mmoplugin.Skill.Define.ActiveSkillType;
+import com.nana.mmoplugin.mmoplugin.util.Lock.CanLock;
+import com.nana.mmoplugin.mmoplugin.util.Lock.ClassLock;
+import com.nana.mmoplugin.mmoplugin.util.itemUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,7 +18,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class ActiveSkillListener implements Listener, CanLock {
 
@@ -181,11 +183,11 @@ public class ActiveSkillListener implements Listener, CanLock {
         Map<ActiveSkillType, Long> cdMap = getCdMap(uid,skillType);
         Long cd = cdMap.get(skillType);
 
-        if ((System.currentTimeMillis() - cd) / 1000 <= skillType.getCd()) {
+        if ((System.currentTimeMillis() - cd) <= skillType.getCd()) {
             player.sendMessage("技能 "
                     + skillType.getName()
                     + " 正在冷却中 剩余"
-                    + (skillType.getCd() - (System.currentTimeMillis() - cd) / 1000) +
+                    + (skillType.getCd() - (System.currentTimeMillis() - cd)) / 1000 +
                     "秒");
             return;
         }
@@ -213,8 +215,7 @@ public class ActiveSkillListener implements Listener, CanLock {
                     }
                     case MORE:{
                         Long lastUseTime = getLastUseTime(uid,skillType);
-                        //System.out.println(lastUseTime);
-                        if (lastUseTime!=(long)0 && System.currentTimeMillis()-lastUseTime<skilltype.getIntervalCd()*1000){
+                        if (lastUseTime != (long) 0 && System.currentTimeMillis() - lastUseTime < skilltype.getIntervalCd()) {
                             player.sendMessage("使用间隔过短");
                             return;
                         }
@@ -259,8 +260,8 @@ public class ActiveSkillListener implements Listener, CanLock {
                 lastUseTime.entrySet()) {
             for (Map.Entry<ActiveSkillType, Long> ex :
                     en.getValue().entrySet()) {
-                if (ex.getValue()!=(long) 0 && System.currentTimeMillis() - ex.getValue() > ex.getKey().getMoreCd()*1000) {
-                    SetCdMap.put(en.getKey(),ex.getKey());
+                if (ex.getValue() != (long) 0 && System.currentTimeMillis() - ex.getValue() > ex.getKey().getMoreCd()) {
+                    SetCdMap.put(en.getKey(), ex.getKey());
                 }
             }
         }

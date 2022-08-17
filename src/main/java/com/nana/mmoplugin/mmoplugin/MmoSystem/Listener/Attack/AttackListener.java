@@ -1,9 +1,9 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack;
 
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage;
-import com.nana.mmoplugin.mmoplugin.util.CanLock;
-import com.nana.mmoplugin.mmoplugin.util.ClassLock;
+import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.util.Lock.CanLock;
+import com.nana.mmoplugin.mmoplugin.util.Lock.ClassLock;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
