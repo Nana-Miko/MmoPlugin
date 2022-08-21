@@ -6,7 +6,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,12 +18,17 @@ public class Damage {
     private Mmoplugin plugin;
     private Double Damage = null;
     private Set<DamageType> damageType = new HashSet<>();
+    private Double PanelDamagePercentage = 1.0;
 
     public Damage(LivingEntity attacker, LivingEntity attacked, Double multiplier, Mmoplugin plugin) {
         Attacker = attacker;
         Attacked = attacked;
         Multiplier = multiplier;
         this.plugin = plugin;
+    }
+
+    public void setPanelDamagePercentage(Double panelDamagePercentage) {
+        PanelDamagePercentage = panelDamagePercentage;
     }
 
     public void setDamage(Double damage) {
@@ -78,10 +82,11 @@ public class Damage {
         for (DamageType damageType :
                 this.damageType) {
             if (Damage==null) {
-                DamageSystem.attack(Attacker, Attacked, Multiplier, damageType, plugin);
+                DamageSystem.attack(Attacker, Attacked, Multiplier, PanelDamagePercentage, damageType, plugin);
             }
             else {DamageSystem.attack(Attacker,Attacked,Multiplier,damageType,Damage,plugin);}
         }
 
     }
+
 }

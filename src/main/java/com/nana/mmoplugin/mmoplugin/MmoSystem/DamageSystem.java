@@ -1,9 +1,9 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem;
 
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Attack.CuttingDamageEvent;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Attack.MagicDamageEvent;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Attack.NormalDamageEvent;
+import com.nana.mmoplugin.mmoplugin.Mmoplugin;
 import com.nana.mmoplugin.mmoplugin.util.AsyncUtil;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
 import org.apache.commons.lang.math.RandomUtils;
@@ -43,26 +43,70 @@ public class DamageSystem {
         }
 
 
-
-        switch (damageType){
-            case NORMAL:{AsyncUtil.CallEventAsync(new NormalDamageEvent(Attacker,Attacked,Damage,Multiplier),plugin);break;}
-            case MAGIC:{AsyncUtil.CallEventAsync(new MagicDamageEvent(Attacker,Attacked,Damage,Multiplier),plugin);break;}
-            case CUTTING:{AsyncUtil.CallEventAsync(new CuttingDamageEvent(Attacker,Attacked,Damage,Multiplier),plugin);break;}
+        switch (damageType) {
+            case NORMAL: {
+                AsyncUtil.CallEventAsync(new NormalDamageEvent(Attacker, Attacked, Damage, Multiplier), plugin);
+                break;
+            }
+            case MAGIC: {
+                AsyncUtil.CallEventAsync(new MagicDamageEvent(Attacker, Attacked, Damage, Multiplier), plugin);
+                break;
+            }
+            case CUTTING: {
+                AsyncUtil.CallEventAsync(new CuttingDamageEvent(Attacker, Attacked, Damage, Multiplier), plugin);
+                break;
+            }
         }
-
 
 
     }
 
-    public static void attack(LivingEntity Attacker, LivingEntity Attacked, Double Multiplier, DamageType damageType,Double Damage, Mmoplugin plugin) {
+    public static void attack(LivingEntity Attacker, LivingEntity Attacked, Double Multiplier, Double PanelDamagePercentage, DamageType damageType, Mmoplugin plugin) {
+        AttributeInstance attackerDamage = Attacker.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);//获取攻击者的攻击力
+        double Damage = attackerDamage.getValue();
+        Damage = Damage * PanelDamagePercentage;
+        Collection<AttributeModifier> attributeModifier_attack = attackerDamage.getModifiers();
+        for (AttributeModifier x :
+                attributeModifier_attack) {
+            if (x.getName().equals("generic.attackDamage")) {
+                Damage = x.getAmount();
+                break;
+            }
 
-        if (Attacked.isInvulnerable()) {
-            return ;
         }
 
 
+        if (Attacked.isInvulnerable()) {
+            return;
+        }
 
-        switch (damageType){
+
+        switch (damageType) {
+            case NORMAL: {
+                AsyncUtil.CallEventAsync(new NormalDamageEvent(Attacker, Attacked, Damage, Multiplier), plugin);
+                break;
+            }
+            case MAGIC: {
+                AsyncUtil.CallEventAsync(new MagicDamageEvent(Attacker, Attacked, Damage, Multiplier), plugin);
+                break;
+            }
+            case CUTTING: {
+                AsyncUtil.CallEventAsync(new CuttingDamageEvent(Attacker, Attacked, Damage, Multiplier), plugin);
+                break;
+            }
+        }
+
+
+    }
+
+    public static void attack(LivingEntity Attacker, LivingEntity Attacked, Double Multiplier, DamageType damageType, Double Damage, Mmoplugin plugin) {
+
+        if (Attacked.isInvulnerable()) {
+            return;
+        }
+
+
+        switch (damageType) {
             case NORMAL:{AsyncUtil.CallEventAsync(new NormalDamageEvent(Attacker,Attacked,Damage,Multiplier),plugin);break;}
             case MAGIC:{AsyncUtil.CallEventAsync(new MagicDamageEvent(Attacker,Attacked,Damage,Multiplier),plugin);break;}
             case CUTTING:{AsyncUtil.CallEventAsync(new CuttingDamageEvent(Attacker,Attacked,Damage,Multiplier),plugin);break;}

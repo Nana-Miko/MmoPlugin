@@ -1,15 +1,18 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack;
 
+import com.nana.mmoplugin.mmoplugin.Arms.Define.ArmsType;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage;
 import com.nana.mmoplugin.mmoplugin.Mmoplugin;
 import com.nana.mmoplugin.mmoplugin.util.Lock.CanLock;
 import com.nana.mmoplugin.mmoplugin.util.Lock.ClassLock;
+import com.nana.mmoplugin.mmoplugin.util.itemUtil;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
@@ -86,7 +89,7 @@ public class AttackListener implements Listener, CanLock {
 
 
         try {
-            if(isShootedArrow == false) {
+            if (isShootedArrow == false) {
                 Attacker = (LivingEntity) entityDamageByEntityEvent.getDamager();
             }
             Attacked = (LivingEntity) entityDamageByEntityEvent.getEntity();
@@ -95,19 +98,48 @@ public class AttackListener implements Listener, CanLock {
             return;
         }
 
+        ItemStack arms = Attacker.getEquipment().getItemInMainHand();
+
+        String lore = itemUtil.hasLore(arms, "[武器类型] ");
+        if (lore == null) {
+            return;
+        }
+        ArmsType armsType = ArmsType.SWORD;
+        for (ArmsType armType :
+                ArmsType.values()) {
+            if (armsType.getName().equals(lore)) {
+                armsType = armType;
+                break;
+            }
+        }
 
 
-        Damage damage = new Damage(Attacker,Attacked,Multiplier,plugin);
+        Damage damage = new Damage(Attacker, Attacked, Multiplier, plugin);
+        switch (armsType) {
+            case BOW:
+            case GIANT_SWORD:
+            case SWORD:
+                damage.setPanelDamagePercentage(armsType.getPanelDamagePercentage());
+                damage.attack();
+                break;
+            case DOUBLE_BLADES:
+                damage.setPanelDamagePercentage(armsType.getPanelDamagePercentage());
+                damage.attack();
+                damage.attack();
+                break;
+
+        }
         damage.attack();
         //System.out.println(damage.getDamageType());
 
-        if(isShootedArrow == true) {
+        if (isShootedArrow == true) {
             AbstractArrow arrow = (AbstractArrow) entityDamageByEntityEvent.getDamager();
-            if (arrow.getPierceLevel()==0){
-                removeArrow(Attacker,entityDamageByEntityEvent.getDamager());
+            if (arrow.getPierceLevel() == 0) {
+                removeArrow(Attacker, entityDamageByEntityEvent.getDamager());
                 arrow.remove();
+            } else {
+                entityDamageByEntityEvent.setCancelled(false);
             }
-            else {entityDamageByEntityEvent.setCancelled(false);}
 
         }
 
