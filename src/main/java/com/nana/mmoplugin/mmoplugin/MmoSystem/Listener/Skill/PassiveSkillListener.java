@@ -85,6 +85,11 @@ public class PassiveSkillListener implements Listener {
             return;
         }
 
+        // 如果事件被取消，则返回
+        if (playerItemHeldEvent.isCancelled()) {
+            return;
+        }
+
 
         // 触发被动
         for (String skillName :

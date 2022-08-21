@@ -1,5 +1,6 @@
 package com.nana.mmoplugin.mmoplugin;
 
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Arms.ArmsTypeListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack.AttackListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack.CuttingAttackerListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack.MagicAttackListener;
@@ -7,10 +8,9 @@ import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack.NormalAttackListen
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Bow.BowAttackListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Dodge.DodgeListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Dodge.PlayerMoveListener;
-import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Skill.ActiveSkillListener;
-
-import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Skill.PassiveSkillListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Dodge.SneakListener;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Skill.ActiveSkillListener;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Skill.PassiveSkillListener;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -54,16 +54,18 @@ public final class Mmoplugin extends JavaPlugin {
     }
 
     private void addListenerMap() {
-        ListenerMap.put("AttackListener",new AttackListener(this));
-        ListenerMap.put("ActiveSkillListener",new ActiveSkillListener(this));
-        ListenerMap.put("PassiveSkillListener",new PassiveSkillListener(this));
-        ListenerMap.put("NormalAttackListener",new NormalAttackListener(this));
-        ListenerMap.put("CuttingAttackerListener",new CuttingAttackerListener(this));
-        ListenerMap.put("MagicAttackListener",new MagicAttackListener(this));
-        ListenerMap.put("BowAttackListener",new BowAttackListener(this));
-        ListenerMap.put("SneakListener",new SneakListener(this));
-        ListenerMap.put("DodgeListener",new DodgeListener(this));
-        ListenerMap.put("PlayerMoveListener",new PlayerMoveListener(this));
+        ListenerMap.put("AttackListener", new AttackListener(this));
+        ListenerMap.put("ActiveSkillListener", new ActiveSkillListener(this));
+        ListenerMap.put("PassiveSkillListener", new PassiveSkillListener(this));
+        ListenerMap.put("NormalAttackListener", new NormalAttackListener(this));
+        ListenerMap.put("CuttingAttackerListener", new CuttingAttackerListener(this));
+        ListenerMap.put("MagicAttackListener", new MagicAttackListener(this));
+        ListenerMap.put("BowAttackListener", new BowAttackListener(this));
+        ListenerMap.put("SneakListener", new SneakListener(this));
+        ListenerMap.put("DodgeListener", new DodgeListener(this));
+        ListenerMap.put("PlayerMoveListener", new PlayerMoveListener(this));
+        ListenerMap.put("ArmsTypeListener", new ArmsTypeListener(this));
+
     }
     public Listener getListener(String ListenerName){
         if (!ListenerMap.containsKey(ListenerName)){return null;}
