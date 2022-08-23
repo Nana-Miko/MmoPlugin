@@ -1,10 +1,9 @@
 package com.nana.mmoplugin.mmoplugin;
 
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Arms.ArmsTypeListener;
-import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack.AttackListener;
-import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack.CuttingAttackerListener;
-import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack.MagicAttackListener;
-import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack.NormalAttackListener;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Arms.LeftClickListener;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Arms.Staves.StaveAttackListener;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack.*;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Bow.BowAttackListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Dodge.DodgeListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Dodge.PlayerMoveListener;
@@ -65,6 +64,9 @@ public final class Mmoplugin extends JavaPlugin {
         ListenerMap.put("DodgeListener", new DodgeListener(this));
         ListenerMap.put("PlayerMoveListener", new PlayerMoveListener(this));
         ListenerMap.put("ArmsTypeListener", new ArmsTypeListener(this));
+        ListenerMap.put("AttackCdListener", new AttackCdListener(this));
+        ListenerMap.put("LeftClickListener", new LeftClickListener(this));
+        ListenerMap.put("StaveAttackListener", new StaveAttackListener(this));
 
     }
     public Listener getListener(String ListenerName){
