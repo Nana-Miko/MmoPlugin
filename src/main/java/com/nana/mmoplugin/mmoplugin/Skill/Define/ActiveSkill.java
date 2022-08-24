@@ -1,7 +1,9 @@
 package com.nana.mmoplugin.mmoplugin.Skill.Define;
 
+import com.nana.mmoplugin.mmoplugin.Arms.Define.ArmsRouse;
 import com.nana.mmoplugin.mmoplugin.Mmoplugin;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public abstract class ActiveSkill implements Skill {
     private Mmoplugin plugin;
@@ -9,6 +11,7 @@ public abstract class ActiveSkill implements Skill {
     private Player player;
     private ActiveSkillType type;
     private int Used;
+    private ArmsRouse armsRouse;
 
     public int getUsed() {
         return Used;
@@ -52,6 +55,16 @@ public abstract class ActiveSkill implements Skill {
 
     public ActiveSkill(Mmoplugin plugin) {
         this.plugin = plugin;
+        setArmsRouse(getPlayer().getEquipment().getItemInMainHand());
     }
 
+    @Override
+    public void setArmsRouse(ItemStack itemStack) {
+        armsRouse = ArmsRouse.getArmsRouse(itemStack);
+    }
+
+    @Override
+    public ArmsRouse getArmsRouse() {
+        return armsRouse;
+    }
 }

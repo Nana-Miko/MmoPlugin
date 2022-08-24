@@ -24,6 +24,7 @@ public class BrambleBody extends PassiveSkill {
 
         LivingEntity Attacked = event.getAttacked();
 
+
         // 判断实体是否持有该被动
         if (!this.hasTrigger(Attacked)){
             return;

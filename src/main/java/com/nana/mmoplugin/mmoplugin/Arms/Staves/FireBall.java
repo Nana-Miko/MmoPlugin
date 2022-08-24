@@ -21,8 +21,8 @@ public class FireBall extends StaveActive {
 
     @Override
     public void Active() {
-        Vector vector = getCaster().getLocation().add(0, 8, 0).getDirection().normalize().multiply(1);
-        Fireball fireball = (Fireball) AsyncUtil.SpawnEntityAsync(getCaster().getWorld(), getCaster().getLocation().add(vector), EntityType.FIREBALL, getPlugin());
+        Vector vector = getCaster().getLocation().getDirection().normalize().multiply(1);
+        Fireball fireball = (Fireball) AsyncUtil.SpawnEntityAsync(getCaster().getWorld(), getCaster().getEyeLocation().add(vector), EntityType.SMALL_FIREBALL, getPlugin());
         fireball.setDirection(vector);
 
         Set<LivingEntity> attackedSet = new HashSet();

@@ -4,6 +4,7 @@ import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Arms.ArmsTypeListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Arms.LeftClickListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Arms.Staves.StaveAttackListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack.*;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.BlockIgniteListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Bow.BowAttackListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Dodge.DodgeListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Dodge.PlayerMoveListener;
@@ -67,6 +68,7 @@ public final class Mmoplugin extends JavaPlugin {
         ListenerMap.put("AttackCdListener", new AttackCdListener(this));
         ListenerMap.put("LeftClickListener", new LeftClickListener(this));
         ListenerMap.put("StaveAttackListener", new StaveAttackListener(this));
+        ListenerMap.put("BlockIgniteListener", new BlockIgniteListener(this));
 
     }
     public Listener getListener(String ListenerName){
