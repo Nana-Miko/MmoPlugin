@@ -1,33 +1,34 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Dodge;
 
 
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListenerType;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.Vector;
 
 
-public class PlayerMoveListener implements Listener {
-    private Mmoplugin plugin;
+public class PlayerMoveListener extends MmoListener {
 
 
-
-    public PlayerMoveListener(Mmoplugin plugin) {
-        this.plugin = plugin;
+    public PlayerMoveListener(MmoPlugin plugin) {
+        super(plugin);
     }
 
     @EventHandler
-    public void DealEvent(PlayerMoveEvent event){
+    public void DealEvent(PlayerMoveEvent event) {
 
         Player player = event.getPlayer();
 
-        SneakListener sneakListener = (SneakListener) plugin.getListener("SneakListener");
-        if (!sneakListener.getSneakPlayerSet().contains(player.getUniqueId())){return;}
+        SneakListener sneakListener = (SneakListener) getPlugin().getListener(MmoListenerType.SNEAK);
+        if (!sneakListener.getSneakPlayerSet().contains(player.getUniqueId())) {
+            return;
+        }
 
-        DodgeListener dodgeListener = (DodgeListener) plugin.getListener("DodgeListener");
+        DodgeListener dodgeListener = (DodgeListener) getPlugin().getListener(MmoListenerType.DODGE);
         if (dodgeListener.getDodgeIng().contains(player.getUniqueId())){return;}
 
 

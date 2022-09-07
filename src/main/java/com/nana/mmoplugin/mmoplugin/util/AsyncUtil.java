@@ -1,7 +1,6 @@
 package com.nana.mmoplugin.mmoplugin.util;
 
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
-import org.bukkit.Chunk;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Arrow;
@@ -20,11 +19,11 @@ import java.util.concurrent.Future;
 
 public class AsyncUtil {
 
-    public static List<Entity> getNearbyEntitiesAsync(Entity entity, double length, Mmoplugin plugin){
+    public static List<Entity> getNearbyEntitiesAsync(Entity entity, double length, MmoPlugin plugin) {
         BukkitScheduler bukkitScheduler = plugin.getServer().getScheduler();
         List<Entity> entityList = new ArrayList<>();
-        Callable callable = () -> entity.getNearbyEntities(length,length,length);
-        Future future = bukkitScheduler.callSyncMethod(plugin,callable);
+        Callable callable = () -> entity.getNearbyEntities(length, length, length);
+        Future future = bukkitScheduler.callSyncMethod(plugin, callable);
         try {
             entityList = (List<Entity>) future.get();
         } catch (InterruptedException e) {
@@ -37,11 +36,11 @@ public class AsyncUtil {
 
     }
 
-    public static List<LivingEntity> getNearbyLivingEntitiesAsync(Entity entity, double length, Mmoplugin plugin){
+    public static List<LivingEntity> getNearbyLivingEntitiesAsync(Entity entity, double length, MmoPlugin plugin) {
         BukkitScheduler bukkitScheduler = plugin.getServer().getScheduler();
         List<Entity> entityList = new ArrayList<>();
-        Callable callable = () -> entity.getNearbyEntities(length,length,length);
-        Future future = bukkitScheduler.callSyncMethod(plugin,callable);
+        Callable callable = () -> entity.getNearbyEntities(length, length, length);
+        Future future = bukkitScheduler.callSyncMethod(plugin, callable);
         try {
             entityList = (List<Entity>) future.get();
         } catch (InterruptedException e) {
@@ -64,34 +63,37 @@ public class AsyncUtil {
     }
 
 
-    public static void teleportAsync(Entity entity0,Entity entity1, Mmoplugin plugin){
+    public static void teleportAsync(Entity entity0, Entity entity1, MmoPlugin plugin) {
         BukkitScheduler bukkitScheduler = plugin.getServer().getScheduler();
         Callable callable = () -> {
             entity0.teleport(entity1);
             return null;
         };
-        bukkitScheduler.callSyncMethod(plugin,callable);
+        bukkitScheduler.callSyncMethod(plugin, callable);
     }
-    public static void teleportAsync(Entity entity0, Location location, Mmoplugin plugin){
+
+    public static void teleportAsync(Entity entity0, Location location, MmoPlugin plugin) {
         BukkitScheduler bukkitScheduler = plugin.getServer().getScheduler();
         Callable callable = () -> {
             entity0.teleport(location);
             return null;
         };
-        bukkitScheduler.callSyncMethod(plugin,callable);
+        bukkitScheduler.callSyncMethod(plugin, callable);
     }
-    public static void CallEventAsync(Event event, Mmoplugin plugin){
+
+    public static void CallEventAsync(Event event, MmoPlugin plugin) {
         BukkitScheduler bukkitScheduler = plugin.getServer().getScheduler();
         Callable callable = () -> {
             plugin.getServer().getPluginManager().callEvent(event);
             return null;
         };
-        bukkitScheduler.callSyncMethod(plugin,callable);
+        bukkitScheduler.callSyncMethod(plugin, callable);
     }
-    public static Entity SpawnEntityAsync(World world, Location location, EntityType entityType, Mmoplugin plugin){
+
+    public static Entity SpawnEntityAsync(World world, Location location, EntityType entityType, MmoPlugin plugin) {
         BukkitScheduler bukkitScheduler = plugin.getServer().getScheduler();
-        Callable callable = () -> world.spawnEntity(location,entityType);
-        Future future = bukkitScheduler.callSyncMethod(plugin,callable);
+        Callable callable = () -> world.spawnEntity(location, entityType);
+        Future future = bukkitScheduler.callSyncMethod(plugin, callable);
         Entity entity = null;
         try {
             entity = (Entity) future.get();
@@ -103,20 +105,20 @@ public class AsyncUtil {
         return entity;
     }
 
-    public static void EntityRemoveAsync(Entity entity,Mmoplugin plugin){
+    public static void EntityRemoveAsync(Entity entity, MmoPlugin plugin) {
         BukkitScheduler bukkitScheduler = plugin.getServer().getScheduler();
         Callable callable = () -> {
             entity.remove();
             return null;
         };
-        bukkitScheduler.callSyncMethod(plugin,callable);
+        bukkitScheduler.callSyncMethod(plugin, callable);
     }
 
-    public static Arrow SpawnArrowAsync(World world, Location location, Vector direction,float speed,
-                                         float spread, Mmoplugin plugin){
+    public static Arrow SpawnArrowAsync(World world, Location location, Vector direction, float speed,
+                                        float spread, MmoPlugin plugin) {
         BukkitScheduler bukkitScheduler = plugin.getServer().getScheduler();
-        Callable callable = () -> world.spawnArrow(location,direction,speed,spread);
-        Future future = bukkitScheduler.callSyncMethod(plugin,callable);
+        Callable callable = () -> world.spawnArrow(location, direction, speed, spread);
+        Future future = bukkitScheduler.callSyncMethod(plugin, callable);
         Arrow arrow = null;
         try {
             arrow = (Arrow) future.get();

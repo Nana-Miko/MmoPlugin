@@ -1,8 +1,10 @@
-package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Skill;
+package com.nana.mmoplugin.mmoplugin.Skill.Listener;
 
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack.AttackListener;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListenerType;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Dodge.SneakListener;
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
 import com.nana.mmoplugin.mmoplugin.Skill.Define.ActiveSkill;
 import com.nana.mmoplugin.mmoplugin.Skill.Define.ActiveSkillType;
 import com.nana.mmoplugin.mmoplugin.util.Lock.CanLock;
@@ -11,7 +13,6 @@ import com.nana.mmoplugin.mmoplugin.util.itemUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -22,13 +23,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class ActiveSkillListener implements Listener, CanLock {
+public class ActiveSkillListener extends MmoListener implements CanLock {
 
     private Map<UUID, Map<ActiveSkillType, Long>> skillCD;
-    private Map<UUID,Map<ActiveSkillType,Integer>> UsedMap;
-    private Mmoplugin plugin;
-    private Map<UUID,Map<ActiveSkillType,Long>> lastUseTime;
+    private Map<UUID, Map<ActiveSkillType, Integer>> UsedMap;
+    private Map<UUID, Map<ActiveSkillType, Long>> lastUseTime;
     private ClassLock User = null;
+
     @Override
     public void setUser(ClassLock locker) {
         User = locker;
@@ -40,11 +41,11 @@ public class ActiveSkillListener implements Listener, CanLock {
     }
 
 
-    public ActiveSkillListener(Mmoplugin plugin) {
+    public ActiveSkillListener(MmoPlugin plugin) {
+        super(plugin);
         skillCD = new HashMap<>();
         UsedMap = new HashMap<>();
         lastUseTime = new HashMap<>();
-        this.plugin = plugin;
 
         BukkitRunnable task = new BukkitRunnable() {
             @Override
@@ -123,21 +124,21 @@ public class ActiveSkillListener implements Listener, CanLock {
         cleanUsed(uid,skillType);
         cdMap.put(skillType, System.currentTimeMillis());
         skillCD.put(uid, cdMap);
-        plugin.getServer().getPlayer(uid).sendMessage(skillType.getName()+" 进入冷却");
+        getPlugin().getServer().getPlayer(uid).sendMessage(skillType.getName() + " 进入冷却");
     }
 
 
 
     @EventHandler
-    public void useSkill(PlayerInteractEvent playerInteractEvent){
+    public void useSkill(PlayerInteractEvent playerInteractEvent) {
 
-        AttackListener attackListener = (AttackListener) plugin.getListener("AttackListener");
-        SneakListener sneakListener = (SneakListener) plugin.getListener("SneakListener");
+        AttackListener attackListener = (AttackListener) getPlugin().getListener(MmoListenerType.ATTACK);
+        SneakListener sneakListener = (SneakListener) getPlugin().getListener(MmoListenerType.SNEAK);
         Player player = playerInteractEvent.getPlayer();
 
 
         // 判断是否右击空气
-        if (!playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_AIR)){
+        if (!playerInteractEvent.getAction().equals(Action.RIGHT_CLICK_AIR)) {
             return;
         }
 
@@ -173,7 +174,7 @@ public class ActiveSkillListener implements Listener, CanLock {
 
     // 玩家释放技能
     private void PlayerCreateSkill(String skillName, ActiveSkillType skillType, Player player) {
-        AttackListener attackListener = (AttackListener) plugin.getListener("AttackListener");
+        AttackListener attackListener = (AttackListener) getPlugin().getListener(MmoListenerType.ATTACK);
 
         if (!skillType.getName().equals(skillName)) {
             return;
@@ -199,7 +200,7 @@ public class ActiveSkillListener implements Listener, CanLock {
             }
             try {
                 Object object = null;
-                object = skilltype.getClazz().getDeclaredConstructor(Mmoplugin.class).newInstance(plugin);
+                object = skilltype.getClazz().getDeclaredConstructor(MmoPlugin.class).newInstance(getPlugin());
 
 
                 ActiveSkill activeSkill = (ActiveSkill) object;

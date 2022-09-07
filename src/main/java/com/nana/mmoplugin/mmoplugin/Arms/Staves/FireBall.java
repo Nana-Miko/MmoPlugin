@@ -1,8 +1,8 @@
 package com.nana.mmoplugin.mmoplugin.Arms.Staves;
 
-import com.nana.mmoplugin.mmoplugin.Arms.Define.StaveActive;
+import com.nana.mmoplugin.mmoplugin.Arms.Staves.Define.StaveActive;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage;
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
 import com.nana.mmoplugin.mmoplugin.util.AsyncUtil;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 public class FireBall extends StaveActive {
-    public FireBall(LivingEntity caster, Mmoplugin plugin) {
+    public FireBall(LivingEntity caster, MmoPlugin plugin) {
         super(caster, plugin);
 
     }

@@ -1,7 +1,7 @@
 package com.nana.mmoplugin.mmoplugin.Skill.Active;
 
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage;
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
 import com.nana.mmoplugin.mmoplugin.Skill.Define.DamageSkill;
 import com.nana.mmoplugin.mmoplugin.util.AsyncUtil;
 import com.nana.mmoplugin.mmoplugin.util.vectorUtil;
@@ -18,24 +18,23 @@ import org.bukkit.util.Vector;
 
 public class ChopSword extends DamageSkill {
 
-    public ChopSword(Mmoplugin plugin) {
+    public ChopSword(MmoPlugin plugin) {
         super(plugin);
     }
 
 
-
     @Override
-    public Boolean skillRun() {
+    public Boolean skillRunZeroStar() {
         this.setDamageMultipler(1.2);
         World world = getPlayer().getWorld();
-        Vector vector = getPlayer().getLocation().add(0,10,0).getDirection().normalize().multiply(2);
+        Vector vector = getPlayer().getLocation().add(0, 10, 0).getDirection().normalize().multiply(2);
         //Location location = vector.toLocation(world,getPlayer().getEyeLocation().getYaw(),0);
         ArmorStand armorStand = (ArmorStand) world.spawnEntity(getPlayer().getLocation().add(vector), EntityType.ARMOR_STAND);
 
         armorStand.setVisible(false);
         armorStand.setGravity(false);
         armorStand.setInvulnerable(true);
-        armorStand.setItem(EquipmentSlot.HAND,new ItemStack(Material.DIAMOND_SWORD));
+        armorStand.setItem(EquipmentSlot.HAND, new ItemStack(Material.DIAMOND_SWORD));
 
         BukkitRunnable task = new BukkitRunnable() {
             @Override

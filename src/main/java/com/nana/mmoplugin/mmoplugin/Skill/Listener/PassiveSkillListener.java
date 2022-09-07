@@ -1,6 +1,7 @@
-package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Skill;
+package com.nana.mmoplugin.mmoplugin.Skill.Listener;
 
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
 import com.nana.mmoplugin.mmoplugin.Skill.Define.PassiveSkill;
 import com.nana.mmoplugin.mmoplugin.Skill.Define.PassiveSkillType;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
@@ -16,19 +17,18 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class PassiveSkillListener implements Listener {
+public class PassiveSkillListener extends MmoListener {
 
-    private Mmoplugin plugin;
     private Map<PassiveSkillType, Object> skillMap;
 
-    public PassiveSkillListener(Mmoplugin plugin) {
-        this.plugin = plugin;
+    public PassiveSkillListener(MmoPlugin plugin) {
+        super(plugin);
         skillMap = new HashMap<>();
         for (PassiveSkillType skill :
                 PassiveSkillType.values()) {
 
             try {
-                Object object = skill.getClazz().getDeclaredConstructor(Mmoplugin.class).newInstance(plugin);
+                Object object = skill.getClazz().getDeclaredConstructor(MmoPlugin.class).newInstance(plugin);
                 plugin.getServer().getPluginManager().registerEvents((Listener) object, plugin);
                 skillMap.put(skill, object);
             } catch (InstantiationException e) {

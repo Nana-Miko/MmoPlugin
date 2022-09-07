@@ -1,7 +1,7 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack;
 
 
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.DamageSystem;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Attack.NormalDamageEvent;
 import com.nana.mmoplugin.mmoplugin.util.DodgeUtil;
@@ -17,7 +17,7 @@ import java.util.Collection;
 
 public class NormalAttackListener extends AttackListener {
 
-    public NormalAttackListener(Mmoplugin plugin) {
+    public NormalAttackListener(MmoPlugin plugin) {
         super(plugin);
     }
 

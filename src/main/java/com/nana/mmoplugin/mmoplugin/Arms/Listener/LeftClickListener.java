@@ -1,21 +1,21 @@
-package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Arms;
+package com.nana.mmoplugin.mmoplugin.Arms.Listener;
 
+import com.nana.mmoplugin.mmoplugin.Arms.CrossBow.Event.CrossBowAttackEvent;
 import com.nana.mmoplugin.mmoplugin.Arms.Define.ArmsType;
-import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Arms.Stave.StaveAttackEvent;
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.Arms.Staves.Event.StaveAttackEvent;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class LeftClickListener implements Listener {
-    private Mmoplugin plugin;
+public class LeftClickListener extends MmoListener {
 
-    public LeftClickListener(Mmoplugin plugin) {
-        this.plugin = plugin;
+    public LeftClickListener(MmoPlugin plugin) {
+        super(plugin);
     }
 
     @EventHandler
@@ -41,8 +41,10 @@ public class LeftClickListener implements Listener {
 
         switch (armsType) {
             case STAVE:
-                plugin.getServer().getPluginManager().callEvent(new StaveAttackEvent(player));
+                getPlugin().getServer().getPluginManager().callEvent(new StaveAttackEvent(player));
                 break;
+            case CROSSBOW:
+                getPlugin().getServer().getPluginManager().callEvent(new CrossBowAttackEvent(player));
         }
 
 

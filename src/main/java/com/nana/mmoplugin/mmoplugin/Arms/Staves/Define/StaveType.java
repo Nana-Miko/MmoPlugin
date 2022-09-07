@@ -1,4 +1,4 @@
-package com.nana.mmoplugin.mmoplugin.Arms.Define;
+package com.nana.mmoplugin.mmoplugin.Arms.Staves.Define;
 
 import com.nana.mmoplugin.mmoplugin.Arms.Staves.FireBall;
 

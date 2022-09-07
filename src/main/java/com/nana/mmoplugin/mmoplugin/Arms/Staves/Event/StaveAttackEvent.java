@@ -1,38 +1,17 @@
-package com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Arms.Stave;
+package com.nana.mmoplugin.mmoplugin.Arms.Staves.Event;
 
-import com.nana.mmoplugin.mmoplugin.Arms.Define.StaveType;
+import com.nana.mmoplugin.mmoplugin.Arms.Staves.Define.StaveType;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Define.MmoEvent;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
-public class StaveAttackEvent extends Event implements Cancellable {
+public class StaveAttackEvent extends MmoEvent {
 
-    private static final HandlerList handlerList = new HandlerList();
-    private Boolean Cancelled = false;
+
     private Player player;
     private StaveType staveType = null;
 
-    @Override
-    public boolean isCancelled() {
-        return Cancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean b) {
-        this.Cancelled = b;
-    }
-
-    @Override
-    public HandlerList getHandlers() {
-        return handlerList;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlerList;
-    }
 
     public StaveAttackEvent(Player player) {
         this.player = player;

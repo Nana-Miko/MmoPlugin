@@ -1,12 +1,15 @@
 package com.nana.mmoplugin.mmoplugin.Skill.Active;
 
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage;
 import com.nana.mmoplugin.mmoplugin.Skill.Define.ActiveSkillType;
+import com.nana.mmoplugin.mmoplugin.Skill.Define.DamageSkill;
 import com.nana.mmoplugin.mmoplugin.util.AsyncUtil;
 import com.nana.mmoplugin.mmoplugin.util.vectorUtil;
-import com.nana.mmoplugin.mmoplugin.Skill.Define.DamageSkill;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -20,7 +23,6 @@ import org.bukkit.util.Vector;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Callable;
 
 public class ShootSkill extends DamageSkill {
 
@@ -34,7 +36,7 @@ public class ShootSkill extends DamageSkill {
     private EntityType entityType;
     private Location createLocation;
 
-    public ShootSkill(Mmoplugin plugin) {
+    public ShootSkill(MmoPlugin plugin) {
         super(plugin);
     }
 
@@ -79,7 +81,7 @@ public class ShootSkill extends DamageSkill {
     }
 
     @Override
-    public Boolean skillRun() {
+    public Boolean skillRunZeroStar() {
 
         this.setType(ActiveSkillType.SHOOT_SWORD_CONTROL);
         this.setContinueTime(10);

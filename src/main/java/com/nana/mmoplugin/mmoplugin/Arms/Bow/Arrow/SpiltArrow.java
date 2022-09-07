@@ -1,12 +1,12 @@
-package com.nana.mmoplugin.mmoplugin.Bow.Arrow;
+package com.nana.mmoplugin.mmoplugin.Arms.Bow.Arrow;
 
-import com.nana.mmoplugin.mmoplugin.Bow.Define.ArrowActive;
+import com.nana.mmoplugin.mmoplugin.Arms.Bow.Define.ArrowActive;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack.AttackListener;
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListenerType;
 import com.nana.mmoplugin.mmoplugin.util.AsyncUtil;
 import com.nana.mmoplugin.mmoplugin.util.vectorUtil;
 import org.bukkit.Location;
-import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -14,7 +14,7 @@ import org.bukkit.util.Vector;
 
 public class SpiltArrow extends ArrowActive {
 
-    public SpiltArrow(LivingEntity shooter, Entity arrow, Mmoplugin plugin) {
+    public SpiltArrow(LivingEntity shooter, Entity arrow, MmoPlugin plugin) {
         super(shooter, arrow, plugin);
     }
 
@@ -36,7 +36,7 @@ public class SpiltArrow extends ArrowActive {
         arrow.setVelocity(eyeVector);
         arrow1.setVelocity(vectorUtil.rotateAroundAxisY(eyeVector.clone(),7));
         arrow2.setVelocity(vectorUtil.rotateAroundAxisY(eyeVector.clone(),-7));
-        AttackListener attackListener = (AttackListener) getPlugin().getListener("AttackListener");
+        AttackListener attackListener = (AttackListener) getPlugin().getListener(MmoListenerType.ATTACK);
         //添加伤害判定(速度的数值约为拉弓力度的1/3)
         attackListener.addArrow(shooter,arrow1,vector.length()/3);
         attackListener.addArrow(shooter,arrow2,vector.length()/3);

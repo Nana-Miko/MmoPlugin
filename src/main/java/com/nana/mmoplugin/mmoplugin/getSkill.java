@@ -6,10 +6,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class getSkill implements CommandExecutor {
-    private Mmoplugin plugin;
+    private MmoPlugin plugin;
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        plugin = Mmoplugin.getInstance();
+        plugin = MmoPlugin.getInstance();
 
         Player player = (Player) commandSender;
 

@@ -1,8 +1,9 @@
-package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Arms;
+package com.nana.mmoplugin.mmoplugin.Arms.Listener;
 
 import com.nana.mmoplugin.mmoplugin.Arms.Define.ArmsCatchType;
 import com.nana.mmoplugin.mmoplugin.Arms.Define.ArmsType;
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
 import com.nana.mmoplugin.mmoplugin.util.Lock.CanLock;
 import com.nana.mmoplugin.mmoplugin.util.Lock.ClassLock;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
@@ -10,20 +11,18 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class ArmsTypeListener implements Listener, CanLock {
+public class ArmsTypeListener extends MmoListener implements CanLock {
 
-    private Mmoplugin plugin;
     private ClassLock user = null;
 
-    public ArmsTypeListener(Mmoplugin plugin) {
-        this.plugin = plugin;
+    public ArmsTypeListener(MmoPlugin plugin) {
+        super(plugin);
         ArmsCheck();
     }
 
@@ -84,7 +83,7 @@ public class ArmsTypeListener implements Listener, CanLock {
             @Override
             public void run() {
                 for (Player player :
-                        plugin.getServer().getOnlinePlayers()) {
+                        getPlugin().getServer().getOnlinePlayers()) {
                     EntityEquipment equipment = player.getEquipment();
                     ItemStack itemStack = equipment.getItemInOffHand();
                     if (itemStack.getType().equals(Material.AIR)) {
@@ -111,7 +110,7 @@ public class ArmsTypeListener implements Listener, CanLock {
                 }
             }
         };
-        task.runTaskTimerAsynchronously(plugin, 1, 5);
+        task.runTaskTimerAsynchronously(getPlugin(), 1, 5);
     }
 
     @Override

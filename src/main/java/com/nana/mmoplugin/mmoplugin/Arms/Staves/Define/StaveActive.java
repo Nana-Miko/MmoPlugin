@@ -1,19 +1,19 @@
-package com.nana.mmoplugin.mmoplugin.Arms.Define;
+package com.nana.mmoplugin.mmoplugin.Arms.Staves.Define;
 
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public abstract class StaveActive extends BukkitRunnable {
     private LivingEntity caster;
-    private Mmoplugin plugin;
+    private MmoPlugin plugin;
 
-    public StaveActive(LivingEntity caster, Mmoplugin plugin) {
+    public StaveActive(LivingEntity caster, MmoPlugin plugin) {
         this.caster = caster;
         this.plugin = plugin;
     }
 
-    public Mmoplugin getPlugin() {
+    public MmoPlugin getPlugin() {
         return plugin;
     }
 

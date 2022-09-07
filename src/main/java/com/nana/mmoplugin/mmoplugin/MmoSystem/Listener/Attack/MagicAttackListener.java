@@ -1,9 +1,8 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack;
 
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.DamageSystem;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.DamageType;
-
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Attack.MagicDamageEvent;
 import com.nana.mmoplugin.mmoplugin.util.DodgeUtil;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
@@ -14,7 +13,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class MagicAttackListener extends AttackListener {
-    public MagicAttackListener(Mmoplugin plugin) {
+    public MagicAttackListener(MmoPlugin plugin) {
         super(plugin);
     }
 

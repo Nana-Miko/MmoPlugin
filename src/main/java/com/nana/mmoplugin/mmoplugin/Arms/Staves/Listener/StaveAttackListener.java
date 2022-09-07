@@ -1,24 +1,23 @@
-package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Arms.Staves;
+package com.nana.mmoplugin.mmoplugin.Arms.Staves.Listener;
 
-import com.nana.mmoplugin.mmoplugin.Arms.Define.StaveActive;
-import com.nana.mmoplugin.mmoplugin.Arms.Define.StaveType;
-import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Arms.Stave.StaveAttackEvent;
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.Arms.Staves.Define.StaveActive;
+import com.nana.mmoplugin.mmoplugin.Arms.Staves.Define.StaveType;
+import com.nana.mmoplugin.mmoplugin.Arms.Staves.Event.StaveAttackEvent;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StaveAttackListener implements Listener {
-    private Mmoplugin plugin;
+public class StaveAttackListener extends MmoListener {
     private Map<Player, Long> cdMap = new HashMap<>();
 
-    public StaveAttackListener(Mmoplugin plugin) {
-        this.plugin = plugin;
+    public StaveAttackListener(MmoPlugin plugin) {
+        super(plugin);
     }
 
     @EventHandler
@@ -32,7 +31,7 @@ public class StaveAttackListener implements Listener {
 
         Object object = null;
         try {
-            object = staveType.getClazz().getDeclaredConstructor(LivingEntity.class, Mmoplugin.class).newInstance(player, plugin);
+            object = staveType.getClazz().getDeclaredConstructor(LivingEntity.class, MmoPlugin.class).newInstance(player, getPlugin());
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -50,7 +49,7 @@ public class StaveAttackListener implements Listener {
         }
 
         StaveActive staveActive = (StaveActive) object;
-        staveActive.runTaskAsynchronously(plugin);
+        staveActive.runTaskAsynchronously(getPlugin());
         cdMap.put(player, System.currentTimeMillis());
 
 

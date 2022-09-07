@@ -1,8 +1,9 @@
-package com.nana.mmoplugin.mmoplugin.Bow.Arrow;
+package com.nana.mmoplugin.mmoplugin.Arms.Bow.Arrow;
 
-import com.nana.mmoplugin.mmoplugin.Bow.Define.ArrowActive;
+import com.nana.mmoplugin.mmoplugin.Arms.Bow.Define.ArrowActive;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack.AttackListener;
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListenerType;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -10,7 +11,7 @@ import org.bukkit.util.Vector;
 
 public class SonicArrow extends ArrowActive {
 
-    public SonicArrow(LivingEntity shooter, Entity arrow, Mmoplugin plugin) {
+    public SonicArrow(LivingEntity shooter, Entity arrow, MmoPlugin plugin) {
         super(shooter, arrow, plugin);
     }
 
@@ -42,7 +43,7 @@ public class SonicArrow extends ArrowActive {
         abstractArrow.setPierceLevel(20);
         arrow.setVelocity(vector.clone().normalize().multiply(10));
 
-        AttackListener attackListener = (AttackListener) getPlugin().getListener("AttackListener");
+        AttackListener attackListener = (AttackListener) getPlugin().getListener(MmoListenerType.ATTACK);
         attackListener.addArrow(shooter,arrow,2*vector.length());
 
 

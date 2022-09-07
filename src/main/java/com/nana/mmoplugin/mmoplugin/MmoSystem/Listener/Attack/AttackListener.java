@@ -1,8 +1,9 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack;
 
 import com.nana.mmoplugin.mmoplugin.Arms.Define.ArmsType;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage;
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
 import com.nana.mmoplugin.mmoplugin.util.Lock.CanLock;
 import com.nana.mmoplugin.mmoplugin.util.Lock.ClassLock;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
@@ -10,24 +11,21 @@ import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
-public class AttackListener implements Listener, CanLock {
-
-    private Mmoplugin plugin;
+public class AttackListener extends MmoListener implements CanLock {
 
 
     private Map<LivingEntity, Set<Entity>> ArrowMap = new HashMap<>();
-    private Map<Entity,Double> ArrowForceMap = new HashMap<>();
+    private Map<Entity, Double> ArrowForceMap = new HashMap<>();
 
     private ClassLock user = null;
 
-    public void addArrow(LivingEntity shooter,Entity arrow,Double force) {
+    public void addArrow(LivingEntity shooter, Entity arrow, Double force) {
         ClassLock lock = new ClassLock(this);
         lock.getLock();
         if (!ArrowMap.containsKey(shooter)){ArrowMap.put(shooter,new HashSet<>());}
@@ -40,27 +38,33 @@ public class AttackListener implements Listener, CanLock {
     private void removeArrow(LivingEntity shooter,Entity arrow){
         ClassLock lock = new ClassLock(this);
         lock.getLock();
-        if (!ArrowMap.containsKey(shooter)){lock.release();return;}
+        if (!ArrowMap.containsKey(shooter)) {
+            lock.release();
+            return;
+        }
         ArrowMap.get(shooter).remove(arrow);
-        if (ArrowMap.get(shooter).isEmpty()){ArrowMap.remove(shooter);}
-        if (!ArrowForceMap.containsKey(arrow)){lock.release();return;}
+        if (ArrowMap.get(shooter).isEmpty()) {
+            ArrowMap.remove(shooter);
+        }
+        if (!ArrowForceMap.containsKey(arrow)) {
+            lock.release();
+            return;
+        }
         ArrowForceMap.remove(arrow);
         lock.release();
     }
 
 
-    public Mmoplugin getPlugin() {
-        return plugin;
-    }
-
-    public AttackListener(Mmoplugin plugin) {
-        this.plugin = plugin;
+    public AttackListener(MmoPlugin plugin) {
+        super(plugin);
         ReleaseArrow();
     }
 
     @EventHandler
     public void DealEvent(EntityDamageByEntityEvent entityDamageByEntityEvent) {
-        if (entityDamageByEntityEvent.isCancelled()){return;}
+        if (entityDamageByEntityEvent.isCancelled()) {
+            return;
+        }
         entityDamageByEntityEvent.setCancelled(true);
 
         LivingEntity Attacker = null;
@@ -114,7 +118,7 @@ public class AttackListener implements Listener, CanLock {
         }
 
 
-        Damage damage = new Damage(Attacker, Attacked, Multiplier, plugin);
+        Damage damage = new Damage(Attacker, Attacked, Multiplier, getPlugin());
         switch (armsType) {
             case BOW:
             case GIANT_SWORD:
@@ -179,7 +183,7 @@ public class AttackListener implements Listener, CanLock {
 
                 }
             };
-        task.runTaskTimerAsynchronously(plugin,20*5,20*30);
+        task.runTaskTimerAsynchronously(getPlugin(), 20 * 5, 20 * 30);
         }
 
 

@@ -1,11 +1,11 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack;
 
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.DamageSystem;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.DamageType;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Attack.CuttingDamageEvent;
 import com.nana.mmoplugin.mmoplugin.util.DodgeUtil;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
-import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Attack.CuttingDamageEvent;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -18,10 +18,10 @@ import java.util.Iterator;
 import java.util.Map;
 
 
-public class CuttingAttackerListener extends AttackListener {
-    private Map<LivingEntity,Double> bleedingValue;
+public class CuttingAttackListener extends AttackListener {
+    private Map<LivingEntity, Double> bleedingValue;
 
-    public CuttingAttackerListener(Mmoplugin plugin) {
+    public CuttingAttackListener(MmoPlugin plugin) {
         super(plugin);
         bleedingValue = new HashMap<>();
         BukkitRunnable task = new BukkitRunnable() {

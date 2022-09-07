@@ -6,6 +6,7 @@ public enum ArmsType {
     DOUBLE_BLADES("双刀", 0.65, 0.5, ArmsCatchType.BOTH_HAND),
     BOW("弓", 1.0, 1.0, ArmsCatchType.BOTH_HAND),
     STAVE("法杖", 1.0, 1.0, ArmsCatchType.SINGLE_HAND),
+    CROSSBOW("连弩", 1.0, 1.0, ArmsCatchType.BOTH_HAND),
     ;
 
     private final String name;

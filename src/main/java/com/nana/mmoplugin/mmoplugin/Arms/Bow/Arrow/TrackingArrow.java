@@ -1,9 +1,8 @@
-package com.nana.mmoplugin.mmoplugin.Bow.Arrow;
+package com.nana.mmoplugin.mmoplugin.Arms.Bow.Arrow;
 
-import com.nana.mmoplugin.mmoplugin.Bow.Define.ArrowActive;
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.Arms.Bow.Define.ArrowActive;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.util.AsyncUtil;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
@@ -12,7 +11,7 @@ import java.util.List;
 public class TrackingArrow extends ArrowActive {
 
 
-    public TrackingArrow(LivingEntity shooter, Entity arrow, Mmoplugin plugin) {
+    public TrackingArrow(LivingEntity shooter, Entity arrow, MmoPlugin plugin) {
         super(shooter, arrow, plugin);
     }
 

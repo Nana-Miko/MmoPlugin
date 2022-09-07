@@ -1,17 +1,16 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Dodge;
 
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Dodge.DodgeEvent;
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.*;
 
-public class DodgeListener implements Listener {
-    private Mmoplugin plugin;
+public class DodgeListener extends MmoListener {
     private Set<UUID> canDodgeSet = new HashSet<>();
     private Map<UUID, Vector> SpeedMap = new HashMap<>();
     private Set<UUID> DodgeIng = new HashSet<>();
@@ -20,13 +19,23 @@ public class DodgeListener implements Listener {
         return DodgeIng;
     }
 
-    public DodgeListener(Mmoplugin plugin) {
-        this.plugin = plugin;
+    public DodgeListener(MmoPlugin plugin) {
+        super(plugin);
     }
-    public void addSpeed(UUID uid, Vector speed){SpeedMap.put(uid,speed);}
-    public void addCanDodgeSet(UUID uid){canDodgeSet.add(uid);}
 
-    public void removeSpeed(UUID uid){if (SpeedMap.containsKey(uid)){SpeedMap.remove(uid);}}
+    public void addSpeed(UUID uid, Vector speed) {
+        SpeedMap.put(uid, speed);
+    }
+
+    public void addCanDodgeSet(UUID uid) {
+        canDodgeSet.add(uid);
+    }
+
+    public void removeSpeed(UUID uid) {
+        if (SpeedMap.containsKey(uid)) {
+            SpeedMap.remove(uid);
+        }
+    }
 
     public Set<UUID> getCanDodgeSet() {
         return canDodgeSet;
@@ -51,7 +60,7 @@ public class DodgeListener implements Listener {
                 DodgeIng.remove(uid);
             }
         };
-        task.runTaskLaterAsynchronously(plugin,10);
+        task.runTaskLaterAsynchronously(getPlugin(), 10);
 
     }
 }

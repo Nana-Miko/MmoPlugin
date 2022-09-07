@@ -1,6 +1,6 @@
-name: Mmoplugin
+name: MmoPlugin
 version: '${project.version}'
-main: com.nana.mmoplugin.mmoplugin.Mmoplugin
+main: com.nana.mmoplugin.mmoplugin.MmoPlugin
 api-version: 1.18
 authors: [ NanaMiko ]
 

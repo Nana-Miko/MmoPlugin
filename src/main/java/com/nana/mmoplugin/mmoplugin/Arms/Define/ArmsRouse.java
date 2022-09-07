@@ -15,6 +15,9 @@ public enum ArmsRouse {
     public static ArmsRouse getArmsRouse(ItemStack itemStack) {
         String lore = itemUtil.hasLore(itemStack, "[觉醒] ");
         ArmsRouse armsRouse = ArmsRouse.ZERO_STAR;
+        if (lore == null) {
+            return armsRouse;
+        }
         switch (lore) {
             case "☆☆☆☆☆":
                 armsRouse = ZERO_STAR;

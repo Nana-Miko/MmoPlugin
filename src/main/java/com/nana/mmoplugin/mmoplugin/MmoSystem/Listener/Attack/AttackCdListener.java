@@ -1,26 +1,26 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack;
 
 import com.nana.mmoplugin.mmoplugin.Arms.Define.ArmsType;
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class AttackCdListener implements Listener {
-    private Mmoplugin plugin;
+public class AttackCdListener extends MmoListener {
+
     private Map<Player, Long> LastAttack = new HashMap<>();
 
-    public AttackCdListener(Mmoplugin plugin) {
-        this.plugin = plugin;
+    public AttackCdListener(MmoPlugin plugin) {
+        super(plugin);
     }
 
     private Boolean CanAttack(Player player) {

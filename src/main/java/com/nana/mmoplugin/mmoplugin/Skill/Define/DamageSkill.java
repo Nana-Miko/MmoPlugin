@@ -1,7 +1,7 @@
 package com.nana.mmoplugin.mmoplugin.Skill.Define;
 
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage;
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.DamageType;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -17,7 +17,7 @@ public abstract class DamageSkill extends ActiveSkill {
     public void addAttackedEntity(Entity entity){attackedEntity.add(entity);}
     public Boolean IsAttacked(Entity entity){return attackedEntity.contains(entity);}
 
-    public DamageSkill(Mmoplugin plugin) {
+    public DamageSkill(MmoPlugin plugin) {
         super(plugin);
     }
 

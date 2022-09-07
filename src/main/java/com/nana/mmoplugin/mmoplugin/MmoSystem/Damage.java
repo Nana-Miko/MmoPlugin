@@ -1,6 +1,6 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem;
 
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
@@ -15,12 +15,12 @@ public class Damage {
     private LivingEntity Attacker;
     private LivingEntity Attacked;
     private Double Multiplier;
-    private Mmoplugin plugin;
+    private MmoPlugin plugin;
     private Double Damage = null;
     private Set<DamageType> damageType = new HashSet<>();
     private Double PanelDamagePercentage = 1.0;
 
-    public Damage(LivingEntity attacker, LivingEntity attacked, Double multiplier, Mmoplugin plugin) {
+    public Damage(LivingEntity attacker, LivingEntity attacked, Double multiplier, MmoPlugin plugin) {
         Attacker = attacker;
         Attacked = attacked;
         Multiplier = multiplier;

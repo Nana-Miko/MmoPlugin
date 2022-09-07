@@ -1,19 +1,18 @@
 package com.nana.mmoplugin.mmoplugin.Skill.Passive;
 
 
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.Skill.Define.PassiveSkill;
 import com.nana.mmoplugin.mmoplugin.Skill.Define.PassiveSkillType;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class IronBody extends PassiveSkill {
 
-    public IronBody(Mmoplugin plugin) {
+    public IronBody(MmoPlugin plugin) {
         super(plugin);
         this.setType(PassiveSkillType.IRON_BODY);
     }

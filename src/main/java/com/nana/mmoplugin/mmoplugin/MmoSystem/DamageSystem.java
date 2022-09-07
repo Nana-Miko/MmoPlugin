@@ -1,9 +1,9 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem;
 
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Attack.CuttingDamageEvent;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Attack.MagicDamageEvent;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Attack.NormalDamageEvent;
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
 import com.nana.mmoplugin.mmoplugin.util.AsyncUtil;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
 import org.apache.commons.lang.math.RandomUtils;
@@ -24,7 +24,7 @@ import java.util.List;
 
 public class DamageSystem {
 
-    public static void attack(LivingEntity Attacker, LivingEntity Attacked, Double Multiplier, DamageType damageType, Mmoplugin plugin) {
+    public static void attack(LivingEntity Attacker, LivingEntity Attacked, Double Multiplier, DamageType damageType, MmoPlugin plugin) {
         AttributeInstance attackerDamage = Attacker.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);//获取攻击者的攻击力
         double Damage = attackerDamage.getValue();
         Collection<AttributeModifier> attributeModifier_attack = attackerDamage.getModifiers();
@@ -61,7 +61,7 @@ public class DamageSystem {
 
     }
 
-    public static void attack(LivingEntity Attacker, LivingEntity Attacked, Double Multiplier, Double PanelDamagePercentage, DamageType damageType, Mmoplugin plugin) {
+    public static void attack(LivingEntity Attacker, LivingEntity Attacked, Double Multiplier, Double PanelDamagePercentage, DamageType damageType, MmoPlugin plugin) {
         AttributeInstance attackerDamage = Attacker.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);//获取攻击者的攻击力
         double Damage = attackerDamage.getValue();
         Damage = Damage * PanelDamagePercentage;
@@ -99,7 +99,7 @@ public class DamageSystem {
 
     }
 
-    public static void attack(LivingEntity Attacker, LivingEntity Attacked, Double Multiplier, DamageType damageType, Double Damage, Mmoplugin plugin) {
+    public static void attack(LivingEntity Attacker, LivingEntity Attacked, Double Multiplier, DamageType damageType, Double Damage, MmoPlugin plugin) {
 
         if (Attacked.isInvulnerable()) {
             return;
@@ -107,9 +107,18 @@ public class DamageSystem {
 
 
         switch (damageType) {
-            case NORMAL:{AsyncUtil.CallEventAsync(new NormalDamageEvent(Attacker,Attacked,Damage,Multiplier),plugin);break;}
-            case MAGIC:{AsyncUtil.CallEventAsync(new MagicDamageEvent(Attacker,Attacked,Damage,Multiplier),plugin);break;}
-            case CUTTING:{AsyncUtil.CallEventAsync(new CuttingDamageEvent(Attacker,Attacked,Damage,Multiplier),plugin);break;}
+            case NORMAL: {
+                AsyncUtil.CallEventAsync(new NormalDamageEvent(Attacker, Attacked, Damage, Multiplier), plugin);
+                break;
+            }
+            case MAGIC: {
+                AsyncUtil.CallEventAsync(new MagicDamageEvent(Attacker, Attacked, Damage, Multiplier), plugin);
+                break;
+            }
+            case CUTTING: {
+                AsyncUtil.CallEventAsync(new CuttingDamageEvent(Attacker, Attacked, Damage, Multiplier), plugin);
+                break;
+            }
         }
 
 

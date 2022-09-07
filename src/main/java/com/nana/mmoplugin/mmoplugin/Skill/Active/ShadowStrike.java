@@ -1,9 +1,8 @@
 package com.nana.mmoplugin.mmoplugin.Skill.Active;
 
 
-import com.nana.mmoplugin.mmoplugin.Mmoplugin;
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage;
-
 import com.nana.mmoplugin.mmoplugin.Skill.Define.DamageSkill;
 import com.nana.mmoplugin.mmoplugin.util.AsyncUtil;
 import com.nana.mmoplugin.mmoplugin.util.vectorUtil;
@@ -12,23 +11,20 @@ import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 public class ShadowStrike extends DamageSkill {
 
-    public ShadowStrike(Mmoplugin plugin) {
+    public ShadowStrike(MmoPlugin plugin) {
         super(plugin);
     }
 
 
-
     @Override
-    public Boolean skillRun() {
+    public Boolean skillRunZeroStar() {
 
         this.setDamageMultipler(0.5);
 
