@@ -1,6 +1,6 @@
 package com.nana.mmoplugin.mmoplugin.Arms.Staves.Event;
 
-import com.nana.mmoplugin.mmoplugin.Arms.Staves.Define.StaveType;
+import com.nana.mmoplugin.mmoplugin.Arms.Staves.Define.MagicType;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Define.MmoEvent;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
 import org.bukkit.entity.Player;
@@ -10,7 +10,7 @@ public class StaveAttackEvent extends MmoEvent {
 
 
     private Player player;
-    private StaveType staveType = null;
+    private MagicType magicType = null;
 
 
     public StaveAttackEvent(Player player) {
@@ -22,8 +22,8 @@ public class StaveAttackEvent extends MmoEvent {
         return player;
     }
 
-    public StaveType getStaveType() {
-        return staveType;
+    public MagicType getStaveType() {
+        return magicType;
     }
 
     private void StaveType() {
@@ -35,15 +35,15 @@ public class StaveAttackEvent extends MmoEvent {
             return;
         }
 
-        StaveType staveType = null;
-        for (StaveType stavesType :
-                StaveType.values()) {
+        MagicType magicType = null;
+        for (MagicType stavesType :
+                MagicType.values()) {
             if (stavesType.getName().equals(lore)) {
-                staveType = stavesType;
+                magicType = stavesType;
                 break;
             }
         }
-        this.staveType = staveType;
+        this.magicType = magicType;
 
 
     }

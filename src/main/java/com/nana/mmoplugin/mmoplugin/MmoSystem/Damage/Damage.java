@@ -1,4 +1,4 @@
-package com.nana.mmoplugin.mmoplugin.MmoSystem;
+package com.nana.mmoplugin.mmoplugin.MmoSystem.Damage;
 
 import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;

@@ -1,8 +1,8 @@
 package com.nana.mmoplugin.mmoplugin.Skill.Passive;
 
 import com.nana.mmoplugin.mmoplugin.MmoPlugin;
-import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage;
-import com.nana.mmoplugin.mmoplugin.MmoSystem.DamageType;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.Damage;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.DamageType;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Attack.CuttingDamageEvent;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Attack.NormalDamageEvent;
 import com.nana.mmoplugin.mmoplugin.Skill.Define.PassiveSkill;

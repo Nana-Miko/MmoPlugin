@@ -1,9 +1,9 @@
-package com.nana.mmoplugin.mmoplugin.Arms.CrossBow;
+package com.nana.mmoplugin.mmoplugin.Arms.CrossBow.Bolt;
 
 import com.nana.mmoplugin.mmoplugin.Arms.CrossBow.Define.BoltActive;
 import com.nana.mmoplugin.mmoplugin.MmoPlugin;
-import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage;
-import com.nana.mmoplugin.mmoplugin.MmoSystem.DamageType;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.Damage;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.DamageType;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack.AttackListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListenerType;
 import com.nana.mmoplugin.mmoplugin.util.AsyncUtil;

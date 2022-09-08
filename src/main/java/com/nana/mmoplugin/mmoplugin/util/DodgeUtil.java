@@ -3,6 +3,7 @@ package com.nana.mmoplugin.mmoplugin.util;
 import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListenerType;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Dodge.DodgeListener;
+import com.nana.mmoplugin.mmoplugin.util.Define.MmoUtil;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -11,7 +12,7 @@ import org.bukkit.entity.Entity;
 
 import java.util.UUID;
 
-public class DodgeUtil {
+public class DodgeUtil implements MmoUtil {
 
     public static Boolean IsDodgeIng(UUID uid, MmoPlugin plugin) {
         DodgeListener dodgeListener = (DodgeListener) plugin.getListener(MmoListenerType.DODGE);

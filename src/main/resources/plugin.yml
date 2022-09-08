@@ -11,3 +11,12 @@ commands:
   skill:
     description: "测试"
     usage: "测试"
+  showdamage:
+    description: "显示伤害面板"
+    usage: "错误"
+    permission: allPlayer
+
+permissions:
+  allPlayer:
+    description: "所有玩家"
+    default: true

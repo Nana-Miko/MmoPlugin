@@ -1,6 +1,8 @@
 package com.nana.mmoplugin.mmoplugin.Arms.Define;
 
-public enum ArmsType {
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Define.MmoAttributeType;
+
+public enum ArmsType implements MmoAttributeType {
     SWORD("单手剑", 1.0, 0.75, ArmsCatchType.SINGLE_HAND),
     GIANT_SWORD("巨剑", 1.5, 1.5, ArmsCatchType.BOTH_HAND),
     DOUBLE_BLADES("双刀", 0.65, 0.5, ArmsCatchType.BOTH_HAND),
@@ -37,5 +39,10 @@ public enum ArmsType {
 
     public Double getPanelDamagePercentage() {
         return PanelDamagePercentage;
+    }
+
+    @Override
+    public String getTypeName() {
+        return "武器类型";
     }
 }

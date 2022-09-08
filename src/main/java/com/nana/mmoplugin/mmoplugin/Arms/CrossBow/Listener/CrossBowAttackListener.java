@@ -5,6 +5,9 @@ import com.nana.mmoplugin.mmoplugin.Arms.CrossBow.Define.BoltType;
 import com.nana.mmoplugin.mmoplugin.Arms.CrossBow.Event.CrossBowAttackEvent;
 import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
+import com.nana.mmoplugin.mmoplugin.util.MmoComponent;
+import net.md_5.bungee.api.ChatMessageType;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,6 +34,7 @@ public class CrossBowAttackListener extends MmoListener {
         Player player = event.getPlayer();
         Set<BoltType> boltTypeSet = event.getStaveTypeSet();
 
+        Boolean hasAmmo = false;
 
         for (BoltType boltType :
                 boltTypeSet) {
@@ -49,6 +53,7 @@ public class CrossBowAttackListener extends MmoListener {
                 boltActive.runTaskAsynchronously(getPlugin());
                 boltType.useAmmo(player);
                 cdMap.put(player, System.currentTimeMillis());
+                hasAmmo = true;
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -58,6 +63,10 @@ public class CrossBowAttackListener extends MmoListener {
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             }
+        }
+        if (hasAmmo == false) {
+            MmoComponent mmoComponent = new MmoComponent("未装备对应类型的" + ChatColor.RED + "弩箭");
+            mmoComponent.showText(player, ChatMessageType.ACTION_BAR);
         }
 
 

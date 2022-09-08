@@ -1,12 +1,13 @@
 package com.nana.mmoplugin.mmoplugin.Skill.Define;
 
 
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Define.MmoAttributeType;
 import com.nana.mmoplugin.mmoplugin.Skill.Passive.BrambleBody;
 import com.nana.mmoplugin.mmoplugin.Skill.Passive.IronBody;
 
-public enum PassiveSkillType {
+public enum PassiveSkillType implements MmoAttributeType {
     IRON_BODY("铜墙铁壁", IronBody.class, 0),
-    BRAMBLE_BODY("荆棘之甲", BrambleBody.class,1),
+    BRAMBLE_BODY("荆棘之甲", BrambleBody.class, 1),
     ;
 
     private String name;
@@ -31,4 +32,8 @@ public enum PassiveSkillType {
         return clazz;
     }
 
+    @Override
+    public String getTypeName() {
+        return "被动技能类型";
+    }
 }

@@ -2,14 +2,15 @@ package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack;
 
 import com.nana.mmoplugin.mmoplugin.Arms.Define.ArmsType;
 import com.nana.mmoplugin.mmoplugin.MmoPlugin;
-import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.Damage;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
-import com.nana.mmoplugin.mmoplugin.util.Lock.CanLock;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.PlayerStorageListener;
 import com.nana.mmoplugin.mmoplugin.util.Lock.ClassLock;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
@@ -17,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
-public class AttackListener extends MmoListener implements CanLock {
+public class AttackListener extends MmoListener implements PlayerStorageListener {
 
 
     private Map<LivingEntity, Set<Entity>> ArrowMap = new HashMap<>();
@@ -27,31 +28,47 @@ public class AttackListener extends MmoListener implements CanLock {
 
     public void addArrow(LivingEntity shooter, Entity arrow, Double force) {
         ClassLock lock = new ClassLock(this);
-        lock.getLock();
-        if (!ArrowMap.containsKey(shooter)){ArrowMap.put(shooter,new HashSet<>());}
+        try {
+            lock.getLock();
+        } catch (ClassLock.LockException e) {
+            e.printStackTrace();
+            return;
+        }
+        if (!ArrowMap.containsKey(shooter)) {
+            ArrowMap.put(shooter, new HashSet<>());
+        }
         ArrowMap.get(shooter).add(arrow);
-        setArrowForce(arrow,force);
+        setArrowForce(arrow, force);
         lock.release();
     }
-    private void setArrowForce(Entity arrow,Double force){ArrowForceMap.put(arrow,force);}
 
-    private void removeArrow(LivingEntity shooter,Entity arrow){
-        ClassLock lock = new ClassLock(this);
-        lock.getLock();
-        if (!ArrowMap.containsKey(shooter)) {
+    private void setArrowForce(Entity arrow, Double force) {
+        ArrowForceMap.put(arrow, force);
+    }
+
+    private void removeArrow(LivingEntity shooter, Entity arrow) {
+        try {
+            ClassLock lock = new ClassLock(this);
+            lock.getLock();
+            if (!ArrowMap.containsKey(shooter)) {
+                lock.release();
+                return;
+            }
+            ArrowMap.get(shooter).remove(arrow);
+            if (ArrowMap.get(shooter).isEmpty()) {
+                ArrowMap.remove(shooter);
+            }
+            if (!ArrowForceMap.containsKey(arrow)) {
+                lock.release();
+                return;
+            }
+            ArrowForceMap.remove(arrow);
             lock.release();
+        } catch (ClassLock.LockException e) {
+            e.printStackTrace();
             return;
         }
-        ArrowMap.get(shooter).remove(arrow);
-        if (ArrowMap.get(shooter).isEmpty()) {
-            ArrowMap.remove(shooter);
-        }
-        if (!ArrowForceMap.containsKey(arrow)) {
-            lock.release();
-            return;
-        }
-        ArrowForceMap.remove(arrow);
-        lock.release();
+
     }
 
 
@@ -74,22 +91,29 @@ public class AttackListener extends MmoListener implements CanLock {
         Entity Damager = entityDamageByEntityEvent.getDamager();
 
         ClassLock lock = new ClassLock(this);
-        lock.getLock();
-        for (Map.Entry<LivingEntity, Set<Entity>> entry :
-                ArrowMap.entrySet()) {
-            if (isShootedArrow){break;}
-            for (Entity arrow :
-                    entry.getValue()) {
-                if(arrow.equals(Damager)){
-                    Attacker = entry.getKey();
-                    Multiplier = ArrowForceMap.get(arrow) - 0.5;
-                    isShootedArrow = true;
+        try {
+            lock.getLock();
+            for (Map.Entry<LivingEntity, Set<Entity>> entry :
+                    ArrowMap.entrySet()) {
+                if (isShootedArrow) {
                     break;
                 }
-            }
+                for (Entity arrow :
+                        entry.getValue()) {
+                    if (arrow.equals(Damager)) {
+                        Attacker = entry.getKey();
+                        Multiplier = ArrowForceMap.get(arrow) - 0.5;
+                        isShootedArrow = true;
+                        break;
+                    }
+                }
 
+            }
+            lock.release();
+        } catch (ClassLock.LockException e) {
+            e.printStackTrace();
+            return;
         }
-        lock.release();
 
 
         try {
@@ -111,7 +135,7 @@ public class AttackListener extends MmoListener implements CanLock {
         ArmsType armsType = ArmsType.SWORD;
         for (ArmsType armType :
                 ArmsType.values()) {
-            if (armsType.getName().equals(lore)) {
+            if (armType.getName().equals(lore)) {
                 armsType = armType;
                 break;
             }
@@ -123,6 +147,8 @@ public class AttackListener extends MmoListener implements CanLock {
             case BOW:
             case GIANT_SWORD:
             case SWORD:
+            case CROSSBOW:
+            case STAVE:
                 damage.setPanelDamagePercentage(armsType.getPanelDamagePercentage());
                 damage.attack();
                 break;
@@ -131,9 +157,12 @@ public class AttackListener extends MmoListener implements CanLock {
                 damage.attack();
                 damage.attack();
                 break;
+            default:
+                damage.attack();
+                break;
 
         }
-        damage.attack();
+
         //System.out.println(damage.getDamageType());
 
         if (isShootedArrow == true) {
@@ -159,29 +188,39 @@ public class AttackListener extends MmoListener implements CanLock {
             @Override
             public void run() {
                 ClassLock lock = new ClassLock(a);
-                lock.getLock();
-                Iterator<Map.Entry<LivingEntity,Set<Entity>>> iterator= ArrowMap.entrySet().iterator();
-                while(iterator.hasNext()){
-                    Set<Entity> entitySet = iterator.next().getValue();
-                    // 测试
-                    System.out.println(entitySet.toString());
-                    Iterator<Entity> iterator1 = entitySet.iterator();
-                    while (iterator1.hasNext()){
-                        Entity entity = iterator1.next();
-                        AbstractArrow arrow = (AbstractArrow) entity;
+                try {
+                    lock.getLock();
+                    Iterator<Map.Entry<LivingEntity, Set<Entity>>> iterator = ArrowMap.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Set<Entity> entitySet = iterator.next().getValue();
+                        // 测试
+                        System.out.println(entitySet.toString());
+                        Iterator<Entity> iterator1 = entitySet.iterator();
+                        while (iterator1.hasNext()) {
+                            Entity entity = iterator1.next();
+                            AbstractArrow arrow = (AbstractArrow) entity;
 
-                        if (entity.isOnGround() || arrow.isInBlock()){
-                            iterator1.remove();
-                            if (ArrowForceMap.containsKey(entity)){ArrowForceMap.remove(entity);}
+                            if (entity.isOnGround() || arrow.isInBlock()) {
+                                iterator1.remove();
+                                if (ArrowForceMap.containsKey(entity)) {
+                                    ArrowForceMap.remove(entity);
+                                }
+                            }
+
                         }
-
+                        if (entitySet.isEmpty()) {
+                            iterator.remove();
+                        }
                     }
-                    if (entitySet.isEmpty()){iterator.remove();}
+
+                    lock.release();
+                } catch (ClassLock.LockException e) {
+                    e.printStackTrace();
+                    return;
                 }
 
-                lock.release();
 
-                }
+            }
             };
         task.runTaskTimerAsynchronously(getPlugin(), 20 * 5, 20 * 30);
         }
@@ -195,5 +234,21 @@ public class AttackListener extends MmoListener implements CanLock {
     @Override
     public ClassLock getUser() {
         return user;
+    }
+
+    @Override
+    public Boolean unregisterPlayer(Player player) {
+        if (ArrowMap.containsKey(player)) {
+            Set<Entity> entitySet = ArrowMap.get(player);
+            for (Entity entity :
+                    entitySet) {
+                if (ArrowForceMap.containsKey(entity)) {
+                    ArrowForceMap.remove(entity);
+                }
+            }
+            ArrowMap.remove(player);
+            return true;
+        }
+        return false;
     }
 }

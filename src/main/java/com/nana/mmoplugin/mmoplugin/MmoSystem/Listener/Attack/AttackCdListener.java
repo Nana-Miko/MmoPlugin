@@ -3,6 +3,8 @@ package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack;
 import com.nana.mmoplugin.mmoplugin.Arms.Define.ArmsType;
 import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.PlayerStorageListener;
+import com.nana.mmoplugin.mmoplugin.util.Lock.ClassLock;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -15,7 +17,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AttackCdListener extends MmoListener {
+public class AttackCdListener extends MmoListener implements PlayerStorageListener {
+
+    private ClassLock user = null;
 
     private Map<Player, Long> LastAttack = new HashMap<>();
 
@@ -63,5 +67,24 @@ public class AttackCdListener extends MmoListener {
         }
 
 
+    }
+
+    @Override
+    public Boolean unregisterPlayer(Player player) {
+        if (LastAttack.containsKey(player)) {
+            LastAttack.remove(player);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void setUser(ClassLock locker) {
+        user = locker;
+    }
+
+    @Override
+    public ClassLock getUser() {
+        return user;
     }
 }

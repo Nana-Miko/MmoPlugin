@@ -5,15 +5,17 @@ import com.nana.mmoplugin.mmoplugin.Arms.CrossBow.Listener.CrossBowAttackListene
 import com.nana.mmoplugin.mmoplugin.Arms.Listener.ArmsTypeListener;
 import com.nana.mmoplugin.mmoplugin.Arms.Listener.LeftClickListener;
 import com.nana.mmoplugin.mmoplugin.Arms.Staves.Listener.StaveAttackListener;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Define.MmoAttributeType;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack.*;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.BlockIgniteListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Dodge.DodgeListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Dodge.PlayerMoveListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Dodge.SneakListener;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.PlayerQuitListener;
 import com.nana.mmoplugin.mmoplugin.Skill.Listener.ActiveSkillListener;
 import com.nana.mmoplugin.mmoplugin.Skill.Listener.PassiveSkillListener;
 
-public enum MmoListenerType {
+public enum MmoListenerType implements MmoAttributeType {
     ATTACK(AttackListener.class),
     ACTIVE_SKILL(ActiveSkillListener.class),
     PASSIVE_SKILL(PassiveSkillListener.class),
@@ -30,6 +32,7 @@ public enum MmoListenerType {
     STAVE_ATTACK(StaveAttackListener.class),
     BLOCK_IGNITE(BlockIgniteListener.class),
     CROSSBOW_ATTACK(CrossBowAttackListener.class),
+    PLAYER_QUIT(PlayerQuitListener.class)
     ;
 
     private Class<? extends MmoListener> clazz;
@@ -43,4 +46,8 @@ public enum MmoListenerType {
     }
 
 
+    @Override
+    public String getTypeName() {
+        return "监听器类型";
+    }
 }

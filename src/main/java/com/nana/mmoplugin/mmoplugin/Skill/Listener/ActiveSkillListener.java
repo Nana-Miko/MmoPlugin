@@ -4,12 +4,15 @@ import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack.AttackListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListenerType;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.PlayerStorageListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Dodge.SneakListener;
 import com.nana.mmoplugin.mmoplugin.Skill.Define.ActiveSkill;
 import com.nana.mmoplugin.mmoplugin.Skill.Define.ActiveSkillType;
-import com.nana.mmoplugin.mmoplugin.util.Lock.CanLock;
 import com.nana.mmoplugin.mmoplugin.util.Lock.ClassLock;
+import com.nana.mmoplugin.mmoplugin.util.MmoComponent;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
+import net.md_5.bungee.api.ChatMessageType;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class ActiveSkillListener extends MmoListener implements CanLock {
+public class ActiveSkillListener extends MmoListener implements PlayerStorageListener {
 
     private Map<UUID, Map<ActiveSkillType, Long>> skillCD;
     private Map<UUID, Map<ActiveSkillType, Integer>> UsedMap;
@@ -57,27 +60,43 @@ public class ActiveSkillListener extends MmoListener implements CanLock {
 
     }
 
-    private Integer skillUsed(UUID uid,ActiveSkillType skillType){
+    private Integer skillUsed(UUID uid, ActiveSkillType skillType) {
         ClassLock lock = new ClassLock(this);
-        lock.getLock();
-        if (!UsedMap.containsKey(uid)){UsedMap.put(uid,new HashMap<>());}
-        Map<ActiveSkillType,Integer> skillTypeMap = UsedMap.get(uid);
-        if (!skillTypeMap.containsKey(skillType)){skillTypeMap.put(skillType,0);}
+        try {
+            lock.getLock();
+        } catch (ClassLock.LockException e) {
+            e.printStackTrace();
+            return null;
+        }
+        if (!UsedMap.containsKey(uid)) {
+            UsedMap.put(uid, new HashMap<>());
+        }
+        Map<ActiveSkillType, Integer> skillTypeMap = UsedMap.get(uid);
+        if (!skillTypeMap.containsKey(skillType)) {
+            skillTypeMap.put(skillType, 0);
+        }
         Integer used = skillTypeMap.get(skillType);
         used++;
-        skillTypeMap.put(skillType,used);
-        if (!lastUseTime.containsKey(uid)){lastUseTime.put(uid,new HashMap<>());}
-        Map<ActiveSkillType,Long> LastUseTime = lastUseTime.get(uid);
-        LastUseTime.put(skillType,System.currentTimeMillis());
+        skillTypeMap.put(skillType, used);
+        if (!lastUseTime.containsKey(uid)) {
+            lastUseTime.put(uid, new HashMap<>());
+        }
+        Map<ActiveSkillType, Long> LastUseTime = lastUseTime.get(uid);
+        LastUseTime.put(skillType, System.currentTimeMillis());
         lock.release();
         return used;
     }
 
-    private void cleanUsed(UUID uid,ActiveSkillType skillType){
+    private void cleanUsed(UUID uid, ActiveSkillType skillType) {
         ClassLock lock = new ClassLock(this);
-        lock.getLock();
-        Map<ActiveSkillType,Integer> skillTypeMap = UsedMap.get(uid);
-        if (skillTypeMap!=null) {
+        try {
+            lock.getLock();
+        } catch (ClassLock.LockException e) {
+            e.printStackTrace();
+            return;
+        }
+        Map<ActiveSkillType, Integer> skillTypeMap = UsedMap.get(uid);
+        if (skillTypeMap != null) {
             if (skillTypeMap.containsKey(skillType)) {
                 skillTypeMap.remove(skillType);
             }
@@ -85,8 +104,8 @@ public class ActiveSkillListener extends MmoListener implements CanLock {
                 UsedMap.remove(uid);
             }
         }
-        Map<ActiveSkillType,Long> LastUseTime = lastUseTime.get(uid);
-        if (LastUseTime!=null) {
+        Map<ActiveSkillType, Long> LastUseTime = lastUseTime.get(uid);
+        if (LastUseTime != null) {
             if (LastUseTime.containsKey(skillType)) {
                 LastUseTime.remove(skillType);
             }
@@ -97,13 +116,25 @@ public class ActiveSkillListener extends MmoListener implements CanLock {
         lock.release();
     }
 
-    private Long getLastUseTime(UUID uid,ActiveSkillType skillType){
+    private Long getLastUseTime(UUID uid, ActiveSkillType skillType) {
         ClassLock lock = new ClassLock(this);
-        lock.getLock();
-        if (!lastUseTime.containsKey(uid)){lastUseTime.put(uid,new HashMap<>());}
-        Map<ActiveSkillType,Long> LastUseTime = lastUseTime.get(uid);
-        if (LastUseTime.containsKey(skillType)){lock.release();return LastUseTime.get(skillType);}
-        else {lock.release();return (long) 0;}
+        try {
+            lock.getLock();
+        } catch (ClassLock.LockException e) {
+            e.printStackTrace();
+            return null;
+        }
+        if (!lastUseTime.containsKey(uid)) {
+            lastUseTime.put(uid, new HashMap<>());
+        }
+        Map<ActiveSkillType, Long> LastUseTime = lastUseTime.get(uid);
+        if (LastUseTime.containsKey(skillType)) {
+            lock.release();
+            return LastUseTime.get(skillType);
+        } else {
+            lock.release();
+            return (long) 0;
+        }
 
     }
 
@@ -119,12 +150,13 @@ public class ActiveSkillListener extends MmoListener implements CanLock {
         return cdMap;
     }
 
-    private void SetCd(UUID uid,ActiveSkillType skillType,Map cdMap){
+    private void SetCd(UUID uid, ActiveSkillType skillType, Map cdMap) {
         //设置CD
-        cleanUsed(uid,skillType);
+        cleanUsed(uid, skillType);
         cdMap.put(skillType, System.currentTimeMillis());
         skillCD.put(uid, cdMap);
-        getPlugin().getServer().getPlayer(uid).sendMessage(skillType.getName() + " 进入冷却");
+        MmoComponent mmoComponent = new MmoComponent(ChatColor.GOLD + skillType.getName() + ChatColor.WHITE + " 进入冷却");
+        mmoComponent.showText(getPlugin().getServer().getPlayer(uid), ChatMessageType.ACTION_BAR);
     }
 
 
@@ -153,7 +185,7 @@ public class ActiveSkillListener extends MmoListener implements CanLock {
             return;
         }
 
-        System.out.println("主动技能监听");
+        //System.out.println("主动技能监听");
 
 
 
@@ -185,11 +217,16 @@ public class ActiveSkillListener extends MmoListener implements CanLock {
         Long cd = cdMap.get(skillType);
 
         if ((System.currentTimeMillis() - cd) <= skillType.getCd()) {
-            player.sendMessage("技能 "
+            MmoComponent mmoComponent = new MmoComponent("技能 "
+                    + ChatColor.GOLD
                     + skillType.getName()
+                    + ChatColor.WHITE
                     + " 正在冷却中 剩余"
+                    + ChatColor.RED
                     + (skillType.getCd() - (System.currentTimeMillis() - cd)) / 1000 +
                     "秒");
+            mmoComponent.showText(player, ChatMessageType.ACTION_BAR);
+
             return;
         }
 
@@ -209,25 +246,31 @@ public class ActiveSkillListener extends MmoListener implements CanLock {
                 switch (skilltype.getSingleType()){
                     case ONCE:{
                         if (activeSkill.skillRun() == false) {
-                            player.sendMessage(skillType.getErrorTips());
+                            MmoComponent mmoComponent = new MmoComponent(ChatColor.RED + skillType.getErrorTips());
+                            mmoComponent.showText(player, ChatMessageType.ACTION_BAR);
                             return;
-                        }else {player.sendMessage("您使用了 "+skillType.getName());}
+                        } else {
+                            //MmoComponent mmoComponent = new MmoComponent("您使用了 "+skillType.getName());
+                            //mmoComponent.showText(player,ChatMessageType.ACTION_BAR);
+                        }
                         break;
                     }
-                    case MORE:{
-                        Long lastUseTime = getLastUseTime(uid,skillType);
+                    case MORE: {
+                        Long lastUseTime = getLastUseTime(uid, skillType);
                         if (lastUseTime != (long) 0 && System.currentTimeMillis() - lastUseTime < skilltype.getIntervalCd()) {
-                            player.sendMessage("使用间隔过短");
+                            MmoComponent mmoComponent = new MmoComponent(ChatColor.RED + "使用间隔过短");
+                            mmoComponent.showText(player, ChatMessageType.ACTION_BAR);
                             return;
                         }
-                        int use = skillUsed(uid,skillType);
+                        int use = skillUsed(uid, skillType);
                         //System.out.println(use);
                         activeSkill.setUsed(use);
-                        if (activeSkill.skillRun() == false){
-                            player.sendMessage("您使用了 "+skillType.getName());
+                        if (activeSkill.skillRun() == false) {
+                            //MmoComponent mmoComponent = new MmoComponent("您使用了 "+skillType.getName());
+                            //mmoComponent.showText(player,ChatMessageType.ACTION_BAR);
                             return;
+                        } else {
                         }
-                        else {}
                         break;
                     }
                 }
@@ -251,11 +294,16 @@ public class ActiveSkillListener extends MmoListener implements CanLock {
         return;
     }
 
-    private void CdCheck(){
+    private void CdCheck() {
         ClassLock lock = new ClassLock(this);
-        lock.getLock();
+        try {
+            lock.getLock();
+        } catch (ClassLock.LockException e) {
+            e.printStackTrace();
+            return;
+        }
 
-        Map<UUID,ActiveSkillType> SetCdMap = new HashMap<>();
+        Map<UUID, ActiveSkillType> SetCdMap = new HashMap<>();
 
         for (Map.Entry<UUID, Map<ActiveSkillType, Long>> en :
                 lastUseTime.entrySet()) {
@@ -270,12 +318,32 @@ public class ActiveSkillListener extends MmoListener implements CanLock {
 
         for (Map.Entry<UUID, ActiveSkillType> en :
                 SetCdMap.entrySet()) {
-            UUID uid = en.getKey();ActiveSkillType skillType = en.getValue();
-            Map<ActiveSkillType, Long> cdMap = getCdMap(uid,skillType);
-            SetCd(uid,skillType,cdMap);
+            UUID uid = en.getKey();
+            ActiveSkillType skillType = en.getValue();
+            Map<ActiveSkillType, Long> cdMap = getCdMap(uid, skillType);
+            SetCd(uid, skillType, cdMap);
         }
 
     }
 
 
+    @Override
+    public Boolean unregisterPlayer(Player player) {
+        UUID uid = player.getUniqueId();
+        Boolean flag = false;
+        if (skillCD.containsKey(uid)) {
+            skillCD.remove(uid);
+            flag = true;
+        }
+        if (UsedMap.containsKey(uid)) {
+            UsedMap.remove(uid);
+            flag = true;
+        }
+        if (lastUseTime.containsKey(uid)) {
+            lastUseTime.remove(uid);
+            flag = true;
+        }
+
+        return flag;
+    }
 }

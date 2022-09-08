@@ -73,6 +73,10 @@ public class ArmsTypeListener extends MmoListener implements CanLock {
         ItemStack itemStack = player.getEquipment().getItemInOffHand();
         if (itemStack.getType().equals(Material.AIR)) {
             return true;
+        }
+        // 允许左手为弹药(Arrow)
+        else if (itemStack.getType().equals(Material.ARROW)) {
+            return true;
         } else {
             return false;
         }

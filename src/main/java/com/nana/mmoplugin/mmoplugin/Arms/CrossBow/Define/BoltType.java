@@ -1,11 +1,12 @@
 package com.nana.mmoplugin.mmoplugin.Arms.CrossBow.Define;
 
-import com.nana.mmoplugin.mmoplugin.Arms.CrossBow.BreakArmour;
+import com.nana.mmoplugin.mmoplugin.Arms.CrossBow.Bolt.BreakArmour;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Define.MmoAttributeType;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
-public enum BoltType {
+public enum BoltType implements MmoAttributeType {
     BREAK_ARMOUR("破甲", 1.0, BreakArmour.class),
     ;
 
@@ -51,5 +52,10 @@ public enum BoltType {
     public void useAmmo(LivingEntity livingEntity) {
         ItemStack itemStack = livingEntity.getEquipment().getItemInOffHand();
         itemStack.setAmount(itemStack.getAmount() - 1);
+    }
+
+    @Override
+    public String getTypeName() {
+        return "弩箭类型";
     }
 }

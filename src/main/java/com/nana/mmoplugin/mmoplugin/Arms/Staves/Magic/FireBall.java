@@ -1,8 +1,8 @@
-package com.nana.mmoplugin.mmoplugin.Arms.Staves;
+package com.nana.mmoplugin.mmoplugin.Arms.Staves.Magic;
 
 import com.nana.mmoplugin.mmoplugin.Arms.Staves.Define.StaveActive;
 import com.nana.mmoplugin.mmoplugin.MmoPlugin;
-import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.Damage;
 import com.nana.mmoplugin.mmoplugin.util.AsyncUtil;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
@@ -31,7 +31,7 @@ public class FireBall extends StaveActive {
 
         while (!fireball.isDead() && Count < 1000) {
             List<LivingEntity> livingEntityList = AsyncUtil.getNearbyLivingEntitiesAsync(fireball, 1, getPlugin());
-            System.out.println(livingEntityList);
+            //System.out.println(livingEntityList);
             for (LivingEntity en :
                     livingEntityList) {
                 if (attackedSet.contains(en)) {

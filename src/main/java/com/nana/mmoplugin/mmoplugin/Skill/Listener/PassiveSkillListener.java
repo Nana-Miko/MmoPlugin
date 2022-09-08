@@ -2,9 +2,14 @@ package com.nana.mmoplugin.mmoplugin.Skill.Listener;
 
 import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.PlayerStorageListener;
 import com.nana.mmoplugin.mmoplugin.Skill.Define.PassiveSkill;
 import com.nana.mmoplugin.mmoplugin.Skill.Define.PassiveSkillType;
+import com.nana.mmoplugin.mmoplugin.util.Lock.ClassLock;
+import com.nana.mmoplugin.mmoplugin.util.MmoComponent;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
+import net.md_5.bungee.api.ChatMessageType;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,9 +22,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class PassiveSkillListener extends MmoListener {
+public class PassiveSkillListener extends MmoListener implements PlayerStorageListener {
 
     private Map<PassiveSkillType, Object> skillMap;
+    private ClassLock user = null;
 
     public PassiveSkillListener(MmoPlugin plugin) {
         super(plugin);
@@ -123,7 +129,7 @@ public class PassiveSkillListener extends MmoListener {
 
         passiveSkill.removeTrigger(player);
 
-        player.sendMessage(skillType.getName() + " 已失效");
+        //player.sendMessage(skillType.getName() + " 已失效");
         return true;
     }
 
@@ -136,8 +142,33 @@ public class PassiveSkillListener extends MmoListener {
 
         passiveSkill.putTrigger(player);
 
-        player.sendMessage(skillType.getName() + " 生效中");
+        //player.sendMessage(skillType.getName() + " 生效中");
+        MmoComponent mmoComponent = new MmoComponent(ChatColor.GOLD + skillType.getName() + ChatColor.WHITE + " 生效中");
+        mmoComponent.showText(player, ChatMessageType.ACTION_BAR);
 
         return true;
+    }
+
+    @Override
+    public Boolean unregisterPlayer(Player player) {
+        Boolean flag = false;
+        for (Object object :
+                skillMap.values()) {
+            PassiveSkill passiveSkill = (PassiveSkill) object;
+            if (passiveSkill.unregisterPlayer(player)) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
+    @Override
+    public void setUser(ClassLock locker) {
+        user = locker;
+    }
+
+    @Override
+    public ClassLock getUser() {
+        return user;
     }
 }

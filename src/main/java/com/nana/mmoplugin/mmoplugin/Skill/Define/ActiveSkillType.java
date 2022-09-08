@@ -2,12 +2,13 @@ package com.nana.mmoplugin.mmoplugin.Skill.Define;
 
 
 
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Define.MmoAttributeType;
 import com.nana.mmoplugin.mmoplugin.Skill.Active.ChopSword;
 import com.nana.mmoplugin.mmoplugin.Skill.Active.MuMyouSanDanZiKi;
 import com.nana.mmoplugin.mmoplugin.Skill.Active.ShadowStrike;
 import com.nana.mmoplugin.mmoplugin.Skill.Active.ShootSkill;
 
-public enum ActiveSkillType {
+public enum ActiveSkillType implements MmoAttributeType {
     SHOOT_SWORD_CONTROL("御物之法", 5.0, 0.0, 0.0, "Error", ShootSkill.class, 0, ActiveSkillSingleType.ONCE),
     SHADOW_STRIKE("御天下大块之形", 5.0, 0.0, 0.0, "周围没有可攻击的对象", ShadowStrike.class, 1, ActiveSkillSingleType.ONCE),
     CHOP_SWORD("巨剑劈砍", 5.0, 0.0, 0.0, "Error", ChopSword.class, 2, ActiveSkillSingleType.ONCE),
@@ -73,5 +74,8 @@ public enum ActiveSkillType {
     }
 
 
-
+    @Override
+    public String getTypeName() {
+        return "主动技能类型";
+    }
 }

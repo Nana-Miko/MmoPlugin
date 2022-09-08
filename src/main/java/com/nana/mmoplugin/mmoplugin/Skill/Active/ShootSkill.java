@@ -1,7 +1,7 @@
 package com.nana.mmoplugin.mmoplugin.Skill.Active;
 
 import com.nana.mmoplugin.mmoplugin.MmoPlugin;
-import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.Damage;
 import com.nana.mmoplugin.mmoplugin.Skill.Define.ActiveSkillType;
 import com.nana.mmoplugin.mmoplugin.Skill.Define.DamageSkill;
 import com.nana.mmoplugin.mmoplugin.util.AsyncUtil;

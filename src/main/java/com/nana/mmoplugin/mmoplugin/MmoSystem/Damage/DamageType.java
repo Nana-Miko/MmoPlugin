@@ -1,9 +1,11 @@
-package com.nana.mmoplugin.mmoplugin.MmoSystem;
+package com.nana.mmoplugin.mmoplugin.MmoSystem.Damage;
 
-public enum DamageType {
-    NORMAL("普通","护甲 + "),
-    CUTTING("切割","撕裂抵抗 + "),
-    MAGIC("魔法","魔法抵抗 + ");
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Define.MmoAttributeType;
+
+public enum DamageType implements MmoAttributeType {
+    NORMAL("普通", "护甲 + "),
+    CUTTING("切割", "撕裂抵抗 + "),
+    MAGIC("魔法", "魔法抵抗 + ");
 
     private String damageTypeName;
     private String damageArmorName;
@@ -27,5 +29,11 @@ public enum DamageType {
 
     public void setDamageArmorName(String damageArmorName) {
         this.damageArmorName = damageArmorName;
+    }
+
+
+    @Override
+    public String getTypeName() {
+        return "伤害类型";
     }
 }

@@ -6,9 +6,14 @@ import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack.AttackListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListenerType;
+import com.nana.mmoplugin.mmoplugin.util.MmoComponent;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
+import net.md_5.bungee.api.ChatMessageType;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
@@ -47,6 +52,10 @@ public class BowAttackListener extends MmoListener {
 
         if (arrowType.hasAmmo(shooter) == false) {
             event.setCancelled(true);
+            if (shooter.getType().equals(EntityType.PLAYER)) {
+                MmoComponent mmoComponent = new MmoComponent("未装备对应类型的" + ChatColor.RED + "箭矢");
+                mmoComponent.showText((Player) shooter, ChatMessageType.ACTION_BAR);
+            }
             return;
         }
 

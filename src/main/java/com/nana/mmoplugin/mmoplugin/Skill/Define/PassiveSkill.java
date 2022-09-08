@@ -2,6 +2,8 @@ package com.nana.mmoplugin.mmoplugin.Skill.Define;
 
 import com.nana.mmoplugin.mmoplugin.Arms.Define.ArmsRouse;
 import com.nana.mmoplugin.mmoplugin.MmoPlugin;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.PlayerStorageListener;
+import com.nana.mmoplugin.mmoplugin.util.Lock.ClassLock;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -12,11 +14,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class PassiveSkill extends BukkitRunnable implements Skill, Listener {
+public abstract class PassiveSkill extends BukkitRunnable implements Skill, Listener, PlayerStorageListener {
     private PassiveSkillType type;
     private Set<Entity> triggerEntity = new HashSet<>();
     private MmoPlugin plugin;
     private ArmsRouse armsRouse;
+    private ClassLock user = null;
 
     @Override
     public void run() {
@@ -124,7 +127,27 @@ public abstract class PassiveSkill extends BukkitRunnable implements Skill, List
         return armsRouse;
     }
 
+    @Override
+    public Boolean unregisterPlayer(Player player) {
+        if (hasTrigger(player)) {
+            removeTrigger(player);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void setUser(ClassLock locker) {
+        user = locker;
+    }
+
+    @Override
+    public ClassLock getUser() {
+        return user;
+    }
+
     public ArmsRouse getArmsRouse(LivingEntity livingEntity) {
         return ArmsRouse.getArmsRouse(livingEntity.getEquipment().getItemInMainHand());
     }
+
 }

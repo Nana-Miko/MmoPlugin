@@ -1,4 +1,4 @@
-package com.nana.mmoplugin.mmoplugin.MmoSystem;
+package com.nana.mmoplugin.mmoplugin.MmoSystem.Damage;
 
 import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Attack.CuttingDamageEvent;
@@ -128,20 +128,24 @@ public class DamageSystem {
 
     // 吸血
     @NotNull
-    public static Double addHealth(LivingEntity Attacker, Double sucking, double finalDamage) {
-        if (sucking!=(double) 0){
-            double Blood = finalDamage*sucking*0.01;
+    public static Double addHealth(LivingEntity Attacker, Double sucking, double finalDamage, MmoPlugin plugin) {
+        if (sucking != (double) 0) {
+            double Blood = finalDamage * sucking * 0.01;
             double Health = Attacker.getHealth();
-            if (Health+Blood>Attacker.getMaxHealth()){
+            if (Health + Blood > Attacker.getMaxHealth()) {
                 Attacker.setHealth(Attacker.getMaxHealth());
-            }
-            else{
-                Attacker.setHealth(Health+Blood);
+            } else {
+                Attacker.setHealth(Health + Blood);
             }
             if (Attacker.getType().equals(EntityType.PLAYER)) {
-                Attacker.sendMessage("你已吸取 " + Blood + " 点生命值");
+                //Attacker.sendMessage("你已吸取 " + Blood + " 点生命值");
                 Player player = (Player) Attacker;
                 player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_DRINK, 1, 3);
+                if (plugin.getDamageScoreBoard().hasDamageScoreBoard(player)) {
+                    plugin.getDamageScoreBoard().getDamageScore(player).addAttributeValue(Blood, ScoreDamageTypeString.SUCKED_BLEED);
+                }
+
+
             }
         }
 
@@ -179,10 +183,14 @@ public class DamageSystem {
         int randomInt =  RandomUtils.nextInt(101);
         if(randomInt <= Block) {
             finalDamage = damage - (damage * 0.5);
-            if (livingEntity.getType()==EntityType.PLAYER){livingEntity.sendMessage("已格挡");}
+            if (livingEntity.getType() == EntityType.PLAYER) {
+                livingEntity.sendMessage("已格挡");
+            }
 
+
+            // 打铁音效
             livingEntity.getWorld().playSound(livingEntity.getLocation(), Sound.BLOCK_ANVIL_LAND, 1, 15);
-            livingEntity.getWorld().spawnParticle(Particle.CRIT,livingEntity.getLocation().add(0, 1, 0), 3);
+            livingEntity.getWorld().spawnParticle(Particle.CRIT, livingEntity.getLocation().add(0, 1, 0), 3);
 
 
         }
@@ -206,17 +214,18 @@ public class DamageSystem {
         int randomInt =  RandomUtils.nextInt(101);
         if(randomInt <= Critical){
             finalDamage = damage + (damage*0.5);
-            if (livingEntity.getType()==EntityType.PLAYER){livingEntity.sendMessage("已暴击");}
             livingEntity.getWorld().playSound(livingEntity.getLocation(), Sound.ENTITY_PLAYER_ATTACK_CRIT, 1, 1);
 
             //Attacked.getWorld().playEffect(Attacked.getLocation().add(0,1,0),Effect.CRIT,5);
 
         }
+
+
         return finalDamage;
     }
 
     //造成伤害
-    public static void Hurt (LivingEntity Attacker,LivingEntity Attacked,Double damage,Double sucking){
+    public static void Hurt(LivingEntity Attacker, LivingEntity Attacked, Double damage, Double sucking, DamageType damageType, MmoPlugin plugin) {
         // 根据计算后，修改血量，同时播放受击效果
         Double attackedHealth = Attacked.getHealth();
         Double attackedMaxHealth = Attacked.getMaxHealth();
@@ -239,10 +248,19 @@ public class DamageSystem {
         } catch (IllegalStateException e) {
         }
 
+        addHealth(Attacker, sucking, damage, plugin);
+
         if (Attacker.getType().equals(EntityType.PLAYER)) {
-            Attacker.sendMessage("你本次造成了 " + damage + " 点伤害");
+            Player player = (Player) Attacker;
+            //player.sendMessage("你本次造成了 " + damage + " 点伤害");
+            DamageScoreBoard damageScoreBoard = plugin.getDamageScoreBoard();
+            if (damageScoreBoard.hasDamageScoreBoard(player)) {
+                DamageScore damageScore = damageScoreBoard.getDamageScore(player);
+                damageScore.addDamageValue(damage, damageType);
+            }
         }
-        addHealth(Attacker, sucking, damage);
+
+
     }
 }
 

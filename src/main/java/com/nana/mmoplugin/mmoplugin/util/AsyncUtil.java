@@ -1,6 +1,7 @@
 package com.nana.mmoplugin.mmoplugin.util;
 
 import com.nana.mmoplugin.mmoplugin.MmoPlugin;
+import com.nana.mmoplugin.mmoplugin.util.Define.MmoUtil;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Arrow;
@@ -17,7 +18,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-public class AsyncUtil {
+public class AsyncUtil implements MmoUtil {
 
     public static List<Entity> getNearbyEntitiesAsync(Entity entity, double length, MmoPlugin plugin) {
         BukkitScheduler bukkitScheduler = plugin.getServer().getScheduler();

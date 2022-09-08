@@ -1,9 +1,10 @@
 package com.nana.mmoplugin.mmoplugin;
 
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.DamageScoreBoard;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.ShowDamage;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListenerType;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.InvocationTargetException;
@@ -19,6 +20,8 @@ public final class MmoPlugin extends JavaPlugin {
 
     private static Map<MmoListenerType, MmoListener> ListenerMap = new HashMap<>();
 
+    private DamageScoreBoard damageScoreBoard = new DamageScoreBoard();
+
     @Override
     public void onEnable() {
         instance = this;
@@ -28,6 +31,7 @@ public final class MmoPlugin extends JavaPlugin {
 
         this.getCommand("get").setExecutor(new getArms(config));
         this.getCommand("skill").setExecutor(new getSkill());
+        this.getCommand("showdamage").setExecutor(new ShowDamage(this));
 
         for (Map.Entry<MmoListenerType, MmoListener> entry :
                 ListenerMap.entrySet()) {
@@ -67,7 +71,11 @@ public final class MmoPlugin extends JavaPlugin {
 
     }
 
-    public Listener getListener(MmoListenerType mmoListenerType) {
+    public MmoListener getListener(MmoListenerType mmoListenerType) {
         return ListenerMap.get(mmoListenerType);
+    }
+
+    public DamageScoreBoard getDamageScoreBoard() {
+        return damageScoreBoard;
     }
 }

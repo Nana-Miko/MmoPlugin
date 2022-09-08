@@ -1,7 +1,7 @@
 package com.nana.mmoplugin.mmoplugin.Arms.Staves.Listener;
 
+import com.nana.mmoplugin.mmoplugin.Arms.Staves.Define.MagicType;
 import com.nana.mmoplugin.mmoplugin.Arms.Staves.Define.StaveActive;
-import com.nana.mmoplugin.mmoplugin.Arms.Staves.Define.StaveType;
 import com.nana.mmoplugin.mmoplugin.Arms.Staves.Event.StaveAttackEvent;
 import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
@@ -27,11 +27,11 @@ public class StaveAttackListener extends MmoListener {
         }
 
         Player player = event.getPlayer();
-        StaveType staveType = event.getStaveType();
+        MagicType magicType = event.getStaveType();
 
         Object object = null;
         try {
-            object = staveType.getClazz().getDeclaredConstructor(LivingEntity.class, MmoPlugin.class).newInstance(player, getPlugin());
+            object = magicType.getClazz().getDeclaredConstructor(LivingEntity.class, MmoPlugin.class).newInstance(player, getPlugin());
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -43,7 +43,7 @@ public class StaveAttackListener extends MmoListener {
         }
 
         if (cdMap.containsKey(player)) {
-            if (System.currentTimeMillis() - cdMap.get(player) <= staveType.getCd()) {
+            if (System.currentTimeMillis() - cdMap.get(player) <= magicType.getCd()) {
                 return;
             }
         }

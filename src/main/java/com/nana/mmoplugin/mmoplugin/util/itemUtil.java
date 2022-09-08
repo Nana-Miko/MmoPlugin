@@ -1,14 +1,15 @@
 package com.nana.mmoplugin.mmoplugin.util;
 
+import com.nana.mmoplugin.mmoplugin.util.Define.MmoUtil;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class itemUtil {
+public class itemUtil implements MmoUtil {
 
-    public static String hasLore(ItemStack itemStack,String ContainsLore){
+    public static String hasLore(ItemStack itemStack, String ContainsLore) {
         if (itemStack == null) {
             return null;
         }
@@ -28,7 +29,7 @@ public class itemUtil {
             if (lore.contains(ContainsLore)) {
                 //System.out.println(lore);
                 String indexLore = lore.substring(lore.indexOf(ContainsLore) + ContainsLore.length());
-                System.out.println(indexLore);
+                //System.out.println(indexLore);
                 return indexLore;
             }
         }

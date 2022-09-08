@@ -1,9 +1,10 @@
 package com.nana.mmoplugin.mmoplugin.Arms.Define;
 
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Define.MmoAttributeType;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
 import org.bukkit.inventory.ItemStack;
 
-public enum ArmsRouse {
+public enum ArmsRouse implements MmoAttributeType {
     ZERO_STAR,
     ONE_STAR,
     TWO_STAR,
@@ -39,5 +40,10 @@ public enum ArmsRouse {
                 break;
         }
         return armsRouse;
+    }
+
+    @Override
+    public String getTypeName() {
+        return "武器觉醒等级";
     }
 }

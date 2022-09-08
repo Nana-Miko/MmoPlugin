@@ -1,15 +1,17 @@
 package com.nana.mmoplugin.mmoplugin.util;
 
+import com.nana.mmoplugin.mmoplugin.util.Define.MmoUtil;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class vectorUtil {
+public class vectorUtil implements MmoUtil {
     /**
      * This handles non-unit vectors, with yaw and pitch instead of X,Y,Z angles.
      * <p>
@@ -211,6 +213,35 @@ public class vectorUtil {
         return result;
     }
 
+    public static Vector getEntityEyesForwardVector(LivingEntity livingEntity, Double forward) {
+        /**
+         * 获取一个实体视角前方一定距离的坐标向量
+         *
+         * @param livingEntity  生命实体
+         * @param forward 前方的距离
+         * @return {@link Vector}
+         */
+        Location location = livingEntity.getEyeLocation().clone();
+        Vector vector = location.getDirection().normalize().multiply(forward);
+        location.add(vector);
+        return location.toVector().clone();
+
+    }
+
+    public static Location getEntityEyesForwardLocation(LivingEntity livingEntity, Double forward) {
+        /**
+         * 获取一个实体视角前方一定距离的坐标
+         *
+         * @param livingEntity  生命实体
+         * @param secondLocation 前方的距离
+         * @return {@link Location}
+         */
+        Location location = livingEntity.getEyeLocation().clone();
+        Vector vector = location.getDirection().normalize().multiply(forward);
+        location.add(vector);
+        return location.clone();
+
+    }
 
 
 }
