@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class DamageScoreBoard {
+public class DamageScoreBoardManager {
     private Map<Player, DamageScore> openPlayerScoreBoard = new HashMap<>();
 
     // 注册侧边计分板
@@ -31,10 +31,8 @@ public class DamageScoreBoard {
     }
 
     public void removeDamageScoreBoard(Player player) {
-        if (hasDamageScoreBoard(player)) {
-            openPlayerScoreBoard.get(player).unregister();
-            openPlayerScoreBoard.remove(player);
-        }
+        openPlayerScoreBoard.get(player).unregister();
+        openPlayerScoreBoard.remove(player);
     }
 
     public Boolean hasDamageScoreBoard(Player player) {

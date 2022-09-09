@@ -18,7 +18,7 @@ public class ShowDamage implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
         Player player = (Player) sender;
-        DamageScoreBoard damageScoreBoard = plugin.getDamageScoreBoard();
+        DamageScoreBoardManager damageScoreBoard = plugin.getDamageScoreBoardManager();
         if (damageScoreBoard.hasDamageScoreBoard(player)) {
             damageScoreBoard.removeDamageScoreBoard(player);
             plugin.getLogger().info(player.getName() + " 关闭了伤害面板");

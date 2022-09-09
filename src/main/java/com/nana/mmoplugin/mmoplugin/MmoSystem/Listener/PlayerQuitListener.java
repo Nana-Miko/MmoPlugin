@@ -35,5 +35,9 @@ public class PlayerQuitListener extends MmoListener {
             }
 
         }
+        if (getPlugin().getDamageScoreBoardManager().hasDamageScoreBoard(event.getPlayer())) {
+            getPlugin().getDamageScoreBoardManager().removeDamageScoreBoard(event.getPlayer());
+            getPlugin().getLogger().info("已将 " + event.getPlayer().getName() + " 从伤害面板管理器中移除");
+        }
     }
 }

@@ -82,8 +82,8 @@ public class CuttingAttackListener extends MmoListener implements ArmoredAttack,
 
         if (Attacker.getType().equals(EntityType.PLAYER)) {
             Player player = (Player) Attacker;
-            if (getPlugin().getDamageScoreBoard().hasDamageScoreBoard(player)) {
-                DamageScore damageScore = getPlugin().getDamageScoreBoard().getDamageScore(player);
+            if (getPlugin().getDamageScoreBoardManager().hasDamageScoreBoard(player)) {
+                DamageScore damageScore = getPlugin().getDamageScoreBoardManager().getDamageScore(player);
                 damageScore.addAttributeValue(criticalDamage, ScoreDamageTypeString.CRITICAL);
                 damageScore.addAttributeValue(CountFinalDamage(Damage, Multiplier, 0.0) - finalDamage, ScoreDamageTypeString.BLOCKED);
             }

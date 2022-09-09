@@ -141,8 +141,8 @@ public class DamageSystem {
                 //Attacker.sendMessage("你已吸取 " + Blood + " 点生命值");
                 Player player = (Player) Attacker;
                 player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_DRINK, 1, 3);
-                if (plugin.getDamageScoreBoard().hasDamageScoreBoard(player)) {
-                    plugin.getDamageScoreBoard().getDamageScore(player).addAttributeValue(Blood, ScoreDamageTypeString.SUCKED_BLEED);
+                if (plugin.getDamageScoreBoardManager().hasDamageScoreBoard(player)) {
+                    plugin.getDamageScoreBoardManager().getDamageScore(player).addAttributeValue(Blood, ScoreDamageTypeString.SUCKED_BLEED);
                 }
 
 
@@ -253,7 +253,7 @@ public class DamageSystem {
         if (Attacker.getType().equals(EntityType.PLAYER)) {
             Player player = (Player) Attacker;
             //player.sendMessage("你本次造成了 " + damage + " 点伤害");
-            DamageScoreBoard damageScoreBoard = plugin.getDamageScoreBoard();
+            DamageScoreBoardManager damageScoreBoard = plugin.getDamageScoreBoardManager();
             if (damageScoreBoard.hasDamageScoreBoard(player)) {
                 DamageScore damageScore = damageScoreBoard.getDamageScore(player);
                 damageScore.addDamageValue(damage, damageType);

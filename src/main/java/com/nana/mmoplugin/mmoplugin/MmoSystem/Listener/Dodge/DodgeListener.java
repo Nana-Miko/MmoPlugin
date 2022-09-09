@@ -19,15 +19,6 @@ public class DodgeListener extends MmoListener implements PlayerStorageListener 
     private Set<UUID> DodgeIng = new HashSet<>();
 
     public Set<UUID> getDodgeIng() {
-        ClassLock lock = new ClassLock(this);
-        try {
-            lock.getLock();
-            lock.release();
-        } catch (ClassLock.LockException e) {
-            e.printStackTrace();
-            return null;
-        }
-
         return DodgeIng;
     }
 
@@ -36,54 +27,23 @@ public class DodgeListener extends MmoListener implements PlayerStorageListener 
     }
 
     public void addSpeed(UUID uid, Vector speed) {
-        ClassLock lock = new ClassLock(this);
-        try {
-            lock.getLock();
-            SpeedMap.put(uid, speed);
-            lock.release();
-        } catch (ClassLock.LockException e) {
-            e.printStackTrace();
-            return;
-        }
+
+        SpeedMap.put(uid, speed);
+
 
     }
 
     public void addCanDodgeSet(UUID uid) {
-        ClassLock lock = new ClassLock(this);
-        try {
-            lock.getLock();
-        } catch (ClassLock.LockException e) {
-            e.printStackTrace();
-            return;
-        }
-        lock.release();
         canDodgeSet.add(uid);
-        lock.release();
     }
 
     public void removeSpeed(UUID uid) {
         if (SpeedMap.containsKey(uid)) {
-            ClassLock lock = new ClassLock(this);
-            try {
-                lock.getLock();
-            } catch (ClassLock.LockException e) {
-                e.printStackTrace();
-                return;
-            }
             SpeedMap.remove(uid);
-            lock.release();
         }
     }
 
     public Set<UUID> getCanDodgeSet() {
-        ClassLock lock = new ClassLock(this);
-        try {
-            lock.getLock();
-        } catch (ClassLock.LockException e) {
-            e.printStackTrace();
-            return null;
-        }
-        lock.release();
         return canDodgeSet;
     }
 

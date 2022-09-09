@@ -1,6 +1,6 @@
 package com.nana.mmoplugin.mmoplugin;
 
-import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.DamageScoreBoard;
+import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.DamageScoreBoardManager;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.ShowDamage;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListenerType;
@@ -20,7 +20,7 @@ public final class MmoPlugin extends JavaPlugin {
 
     private static Map<MmoListenerType, MmoListener> ListenerMap = new HashMap<>();
 
-    private DamageScoreBoard damageScoreBoard = new DamageScoreBoard();
+    private DamageScoreBoardManager damageScoreBoard = new DamageScoreBoardManager();
 
     @Override
     public void onEnable() {
@@ -75,7 +75,7 @@ public final class MmoPlugin extends JavaPlugin {
         return ListenerMap.get(mmoListenerType);
     }
 
-    public DamageScoreBoard getDamageScoreBoard() {
+    public DamageScoreBoardManager getDamageScoreBoardManager() {
         return damageScoreBoard;
     }
 }

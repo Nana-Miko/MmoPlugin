@@ -58,10 +58,7 @@ public class PassiveSkillListener extends MmoListener implements PlayerStorageLi
 
         ItemStack NewitemStack = player.getInventory().getItem(NewSlot);
         ItemStack PreviousStack = player.getInventory().getItem(PreviousSlot);
-        //如果之前是空手则直接返回（一定未持有被动）
-        if (PreviousStack == null) {
-            return;
-        }
+
 
         // 检测之前是否拥有被动技能
         Set<String> PreviousLore = itemUtil.hasLore(PreviousStack, "[被动技能] ", new HashSet<>());

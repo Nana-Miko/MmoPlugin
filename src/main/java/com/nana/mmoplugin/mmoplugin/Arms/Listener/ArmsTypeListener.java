@@ -89,23 +89,37 @@ public class ArmsTypeListener extends MmoListener implements CanLock {
                 for (Player player :
                         getPlugin().getServer().getOnlinePlayers()) {
                     EntityEquipment equipment = player.getEquipment();
-                    ItemStack itemStack = equipment.getItemInOffHand();
-                    if (itemStack.getType().equals(Material.AIR)) {
+                    ItemStack itemStackOff = equipment.getItemInOffHand();
+                    ItemStack itemStackMain = equipment.getItemInMainHand();
+                    if (itemStackOff.getType().equals(Material.AIR)) {
                         continue;
                     }
-                    String lore = itemUtil.hasLore(itemStack, "[武器类型] ");
-                    if (lore == null) {
+                    String loreMain = itemUtil.hasLore(itemStackMain, "[武器类型] ");
+                    String loreOff = itemUtil.hasLore(itemStackOff, "[武器类型] ");
+                    if (loreOff == null) {
+                        continue;
+                    }
+                    // 允许左手为弹药(Arrow)
+                    if (itemStackOff.getType().equals(Material.ARROW)) {
                         continue;
                     }
                     for (ArmsType armsTypes :
                             ArmsType.values()) {
-                        if (armsTypes.getName().equals(lore)) {
+                        if (armsTypes.getName().equals(loreOff)) {
                             if (armsTypes.getCatchType().equals(ArmsCatchType.BOTH_HAND)) {
                                 PlayerInventory inventory = player.getInventory();
                                 player.sendMessage("双手武器不允许装备在副手");
                                 inventory.clear(40);
-                                inventory.addItem(itemStack);
-
+                                inventory.addItem(itemStackOff);
+                            }
+                            break;
+                        }
+                        if (armsTypes.getName().equals(loreMain)) {
+                            if (armsTypes.getCatchType().equals(ArmsCatchType.BOTH_HAND)) {
+                                PlayerInventory inventory = player.getInventory();
+                                player.sendMessage("装备双手武器中");
+                                inventory.clear(40);
+                                inventory.addItem(itemStackOff);
                             }
                             break;
                         }
