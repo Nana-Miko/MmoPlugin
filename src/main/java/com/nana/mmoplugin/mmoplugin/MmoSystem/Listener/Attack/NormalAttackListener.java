@@ -1,7 +1,6 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack;
 
 
-import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.DamageScore;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.DamageSystem;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.DamageType;
@@ -25,9 +24,6 @@ import java.util.Collection;
 public class NormalAttackListener extends MmoListener implements ArmoredAttack, PlayerStorageListener {
     private ClassLock user = null;
 
-    public NormalAttackListener(MmoPlugin plugin) {
-        super(plugin);
-    }
 
 
     @EventHandler

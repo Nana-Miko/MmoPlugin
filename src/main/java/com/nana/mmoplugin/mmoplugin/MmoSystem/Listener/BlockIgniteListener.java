@@ -8,9 +8,6 @@ import org.bukkit.event.block.BlockIgniteEvent;
 public class BlockIgniteListener extends MmoListener {
     private MmoPlugin plugin;
 
-    public BlockIgniteListener(MmoPlugin plugin) {
-        super(plugin);
-    }
 
     @EventHandler
     public void DealEvent(BlockIgniteEvent event) {

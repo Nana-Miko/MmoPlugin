@@ -2,7 +2,6 @@ package com.nana.mmoplugin.mmoplugin.Arms.Listener;
 
 import com.nana.mmoplugin.mmoplugin.Arms.Define.ArmsCatchType;
 import com.nana.mmoplugin.mmoplugin.Arms.Define.ArmsType;
-import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
 import com.nana.mmoplugin.mmoplugin.util.Lock.CanLock;
 import com.nana.mmoplugin.mmoplugin.util.Lock.ClassLock;
@@ -21,8 +20,7 @@ public class ArmsTypeListener extends MmoListener implements CanLock {
 
     private ClassLock user = null;
 
-    public ArmsTypeListener(MmoPlugin plugin) {
-        super(plugin);
+    public ArmsTypeListener() {
         ArmsCheck();
     }
 

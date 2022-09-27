@@ -18,13 +18,14 @@ import org.bukkit.util.Vector;
 
 public class ChopSword extends DamageSkill {
 
+
     public ChopSword(MmoPlugin plugin) {
         super(plugin);
     }
 
-
     @Override
     public Boolean skillRunZeroStar() {
+
         this.setDamageMultipler(1.2);
         World world = getPlayer().getWorld();
         Vector vector = getPlayer().getLocation().add(0, 10, 0).getDirection().normalize().multiply(2);

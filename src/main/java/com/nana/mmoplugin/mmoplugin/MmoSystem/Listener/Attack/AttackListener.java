@@ -1,7 +1,6 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack;
 
 import com.nana.mmoplugin.mmoplugin.Arms.Define.ArmsType;
-import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.Damage;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.PlayerStorageListener;
@@ -72,8 +71,7 @@ public class AttackListener extends MmoListener implements PlayerStorageListener
     }
 
 
-    public AttackListener(MmoPlugin plugin) {
-        super(plugin);
+    public AttackListener() {
         ReleaseArrow();
     }
 

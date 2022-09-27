@@ -16,9 +16,6 @@ import java.util.Map;
 public class StaveAttackListener extends MmoListener {
     private Map<Player, Long> cdMap = new HashMap<>();
 
-    public StaveAttackListener(MmoPlugin plugin) {
-        super(plugin);
-    }
 
     @EventHandler
     public void DealEvent(StaveAttackEvent event) {

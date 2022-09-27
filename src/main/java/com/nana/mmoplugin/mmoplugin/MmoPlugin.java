@@ -7,18 +7,16 @@ import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListenerType;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.Map;
 
 public final class MmoPlugin extends JavaPlugin {
     private static MmoPlugin instance = null;
 
+    private ListenerManager listenerManager = null;
+
     public static MmoPlugin getInstance() {
         return instance;
     }
-
-    private static Map<MmoListenerType, MmoListener> ListenerMap = new HashMap<>();
 
     private DamageScoreBoardManager damageScoreBoard = new DamageScoreBoardManager();
 
@@ -27,23 +25,22 @@ public final class MmoPlugin extends JavaPlugin {
         instance = this;
         // Plugin startup logic
         FileConfiguration config = getConfig();
-        addListenerMap();
+
+        listenerManager = ListenerManager.getInstance();
 
         this.getCommand("get").setExecutor(new getArms(config));
         this.getCommand("skill").setExecutor(new getSkill());
         this.getCommand("showdamage").setExecutor(new ShowDamage(this));
 
         for (Map.Entry<MmoListenerType, MmoListener> entry :
-                ListenerMap.entrySet()) {
+                listenerManager.getListenerMap().entrySet()) {
             this.getServer().getPluginManager().registerEvents(entry.getValue(), this);
             getLogger().info("监听器 " + entry.getKey() + " 注册成功！");
         }
 
-
         this.saveDefaultConfig();
         getLogger().info("Mmo已经加载！INFO");
         //System.out.println("插件已加载");
-
 
     }
 
@@ -52,27 +49,9 @@ public final class MmoPlugin extends JavaPlugin {
         // Plugin shutdown logic
     }
 
-    private void addListenerMap() {
-        for (MmoListenerType mlt :
-                MmoListenerType.values()) {
-            try {
-                MmoListener mmoListener = mlt.getClazz().getDeclaredConstructor(MmoPlugin.class).newInstance(this);
-                ListenerMap.put(mlt, mmoListener);
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
 
     public MmoListener getListener(MmoListenerType mmoListenerType) {
-        return ListenerMap.get(mmoListenerType);
+        return listenerManager.getListenerMap().get(mmoListenerType);
     }
 
     public DamageScoreBoardManager getDamageScoreBoardManager() {

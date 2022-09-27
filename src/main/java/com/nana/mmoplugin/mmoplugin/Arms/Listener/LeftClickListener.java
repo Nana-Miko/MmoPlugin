@@ -3,7 +3,6 @@ package com.nana.mmoplugin.mmoplugin.Arms.Listener;
 import com.nana.mmoplugin.mmoplugin.Arms.CrossBow.Event.CrossBowAttackEvent;
 import com.nana.mmoplugin.mmoplugin.Arms.Define.ArmsType;
 import com.nana.mmoplugin.mmoplugin.Arms.Staves.Event.StaveAttackEvent;
-import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
 import com.nana.mmoplugin.mmoplugin.util.itemUtil;
 import org.bukkit.entity.Player;
@@ -14,9 +13,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class LeftClickListener extends MmoListener {
 
-    public LeftClickListener(MmoPlugin plugin) {
-        super(plugin);
-    }
 
     @EventHandler
     public void DealEvent(PlayerInteractEvent event) {

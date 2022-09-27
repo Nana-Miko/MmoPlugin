@@ -22,10 +22,6 @@ import java.lang.reflect.InvocationTargetException;
 
 public class BowAttackListener extends MmoListener {
 
-    public BowAttackListener(MmoPlugin plugin) {
-        super(plugin);
-    }
-
 
     @EventHandler
     public void DealEvent(EntityShootBowEvent event) {

@@ -44,8 +44,7 @@ public class ActiveSkillListener extends MmoListener implements PlayerStorageLis
     }
 
 
-    public ActiveSkillListener(MmoPlugin plugin) {
-        super(plugin);
+    public ActiveSkillListener() {
         skillCD = new HashMap<>();
         UsedMap = new HashMap<>();
         lastUseTime = new HashMap<>();
@@ -56,7 +55,7 @@ public class ActiveSkillListener extends MmoListener implements PlayerStorageLis
                 CdCheck();
             }
         };
-        task.runTaskTimerAsynchronously(plugin,2,2);
+        task.runTaskTimerAsynchronously(getPlugin(), 2, 2);
 
     }
 

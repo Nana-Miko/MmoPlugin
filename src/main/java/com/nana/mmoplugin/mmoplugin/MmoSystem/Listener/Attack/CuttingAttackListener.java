@@ -1,6 +1,5 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack;
 
-import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.DamageScore;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.DamageSystem;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.DamageType;
@@ -28,8 +27,7 @@ public class CuttingAttackListener extends MmoListener implements ArmoredAttack,
     private Map<LivingEntity, Double> bleedingValue;
     private ClassLock user = null;
 
-    public CuttingAttackListener(MmoPlugin plugin) {
-        super(plugin);
+    public CuttingAttackListener() {
         bleedingValue = new HashMap<>();
         BukkitRunnable task = new BukkitRunnable() {
             @Override

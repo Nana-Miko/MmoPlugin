@@ -27,15 +27,14 @@ public class PassiveSkillListener extends MmoListener implements PlayerStorageLi
     private Map<PassiveSkillType, Object> skillMap;
     private ClassLock user = null;
 
-    public PassiveSkillListener(MmoPlugin plugin) {
-        super(plugin);
+    public PassiveSkillListener() {
         skillMap = new HashMap<>();
         for (PassiveSkillType skill :
                 PassiveSkillType.values()) {
 
             try {
-                Object object = skill.getClazz().getDeclaredConstructor(MmoPlugin.class).newInstance(plugin);
-                plugin.getServer().getPluginManager().registerEvents((Listener) object, plugin);
+                Object object = skill.getClazz().getDeclaredConstructor(MmoPlugin.class).newInstance(getPlugin());
+                getPlugin().getServer().getPluginManager().registerEvents((Listener) object, getPlugin());
                 skillMap.put(skill, object);
             } catch (InstantiationException e) {
                 e.printStackTrace();

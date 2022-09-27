@@ -1,6 +1,5 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack;
 
-import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.DamageScore;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.DamageSystem;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Damage.DamageType;
@@ -21,9 +20,6 @@ import org.bukkit.inventory.ItemStack;
 public class MagicAttackListener extends MmoListener implements ArmoredAttack, PlayerStorageListener {
     private ClassLock user = null;
 
-    public MagicAttackListener(MmoPlugin plugin) {
-        super(plugin);
-    }
 
 
     @EventHandler

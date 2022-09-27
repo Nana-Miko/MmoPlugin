@@ -1,7 +1,6 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Attack;
 
 import com.nana.mmoplugin.mmoplugin.Arms.Define.ArmsType;
-import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.PlayerStorageListener;
 import com.nana.mmoplugin.mmoplugin.util.Lock.ClassLock;
@@ -23,9 +22,6 @@ public class AttackCdListener extends MmoListener implements PlayerStorageListen
 
     private Map<Player, Long> LastAttack = new HashMap<>();
 
-    public AttackCdListener(MmoPlugin plugin) {
-        super(plugin);
-    }
 
     private Boolean CanAttack(Player player) {
         if (!LastAttack.containsKey(player)) {

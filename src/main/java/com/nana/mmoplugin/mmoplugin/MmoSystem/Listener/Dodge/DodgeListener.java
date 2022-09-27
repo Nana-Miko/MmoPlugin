@@ -1,6 +1,5 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Dodge;
 
-import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Event.Dodge.DodgeEvent;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.PlayerStorageListener;
@@ -22,9 +21,6 @@ public class DodgeListener extends MmoListener implements PlayerStorageListener 
         return DodgeIng;
     }
 
-    public DodgeListener(MmoPlugin plugin) {
-        super(plugin);
-    }
 
     public void addSpeed(UUID uid, Vector speed) {
 

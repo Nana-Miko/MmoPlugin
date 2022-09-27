@@ -21,9 +21,6 @@ public class CrossBowAttackListener extends MmoListener {
 
     private Map<Player, Long> cdMap = new HashMap<>();
 
-    public CrossBowAttackListener(MmoPlugin plugin) {
-        super(plugin);
-    }
 
     @EventHandler
     public void DealEvent(CrossBowAttackEvent event) {

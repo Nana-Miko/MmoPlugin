@@ -4,13 +4,12 @@ import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import org.bukkit.event.Listener;
 
 public class MmoListener implements Listener {
-    private MmoPlugin plugin;
+
 
     public MmoPlugin getPlugin() {
+        MmoPlugin plugin = MmoPlugin.getInstance();
         return plugin;
     }
 
-    public MmoListener(MmoPlugin plugin) {
-        this.plugin = plugin;
-    }
+
 }

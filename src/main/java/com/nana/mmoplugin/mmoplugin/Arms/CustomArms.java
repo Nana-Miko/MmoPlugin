@@ -1,9 +1,9 @@
 package com.nana.mmoplugin.mmoplugin.Arms;
 
 
+import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -21,19 +21,28 @@ public class CustomArms {
     private Boolean UnBreakable;
     private List<String> Lore;
     private List<String> EnchantList;
-    private List<Map<?,?>> AttributeMap;
+    private List<Map<?, ?>> AttributeMap;
+    private MmoPlugin plugin;
 
-    public CustomArms(FileConfiguration config,String path) {
-        this.BaseArticle = config.getString(path+".BaseArticle");
-        this.Name = config.getString(path+".Name");
-        this.UnBreakable = config.getBoolean(path+".UnBreakable");
-        this.Lore = config.getStringList(path+".Lore");
-        this.EnchantList = config.getStringList(path+".Enchant");
-        this.AttributeMap = config.getMapList(path+".Attribute");
+    public CustomArms(FileConfiguration config, String path) {
+        defaultArms(config, path);
+    }
+
+    public CustomArms(MmoPlugin plugin) {
+        this.plugin = plugin;
+    }
+
+    private void defaultArms(FileConfiguration config, String path) {
+        this.BaseArticle = config.getString(path + ".BaseArticle");
+        this.Name = config.getString(path + ".Name");
+        this.UnBreakable = config.getBoolean(path + ".UnBreakable");
+        this.Lore = config.getStringList(path + ".Lore");
+        this.EnchantList = config.getStringList(path + ".Enchant");
+        this.AttributeMap = config.getMapList(path + ".Attribute");
     }
 
     // 获取自定义物品ItemStack
-    public ItemStack CreatCustomArms(){
+    public ItemStack CreatCustomArms() {
 
         ItemStack itemStack = new ItemStack(Material.getMaterial(BaseArticle));
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -43,11 +52,33 @@ public class CustomArms {
         itemMeta.setLore(Lore);
 
 
-        itemMeta = addEnchant(itemMeta.clone(),EnchantList);
+        itemMeta = addEnchant(itemMeta.clone(), EnchantList);
 
         itemStack.setItemMeta(itemMeta);
 
-        itemStack = addAttribute(itemStack.clone(),AttributeMap);
+        itemStack = addAttribute(itemStack.clone(), AttributeMap);
+
+        return itemStack;
+    }
+
+    public ItemStack CreatCustomArms(String armsName) {
+        FileConfiguration config = plugin.getConfig();
+        String path = "CustomArms." + armsName;
+        defaultArms(config, path);
+
+        ItemStack itemStack = new ItemStack(Material.getMaterial(BaseArticle));
+        ItemMeta itemMeta = itemStack.getItemMeta();
+
+        itemMeta.setDisplayName(Name);
+        itemMeta.setUnbreakable(UnBreakable);
+        itemMeta.setLore(Lore);
+
+
+        itemMeta = addEnchant(itemMeta.clone(), EnchantList);
+
+        itemStack.setItemMeta(itemMeta);
+
+        itemStack = addAttribute(itemStack.clone(), AttributeMap);
 
         return itemStack;
     }

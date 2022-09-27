@@ -1,6 +1,5 @@
 package com.nana.mmoplugin.mmoplugin.MmoSystem.Listener;
 
-import com.nana.mmoplugin.mmoplugin.MmoPlugin;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListener;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.MmoListenerType;
 import com.nana.mmoplugin.mmoplugin.MmoSystem.Listener.Define.PlayerStorageListener;
@@ -10,9 +9,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerQuitListener extends MmoListener {
 
-    public PlayerQuitListener(MmoPlugin plugin) {
-        super(plugin);
-    }
 
     @EventHandler
     public void DealEvent(PlayerQuitEvent event) {
